@@ -33,10 +33,6 @@ class BattlemapController extends Controller
             ]);
         }
 
-        // $render_test = '(2, 2)';
-        // $render_array = ['(3, 5)', '(2, 1)'];
-        // $render_array = [['x' => 5, 'y' => 2], ['x' => 3, 'y' => 1], ['x' => 7, 'y' => 7]];
-
         $map_data = [];
 
         for ($index = 1; $index <= 2; $index ++) { 
@@ -48,20 +44,13 @@ class BattlemapController extends Controller
             array_push($map_data, $tempObject);
         }
 
-        // return $map_data;
         $character_names = Character::lists('name', 'id')->toArray();
 
-        $test_character = Character::with('statistics')->find(1);
-        $all_characters = Character::all();
-
-        return view('battlemap.index', compact('character_names', 'test_character', 'all_characters', 'map_data'));
+        return view('battlemap.index', compact('character_names', 'map_data'));
     }
 
     public function validateMove(Request $request)
     {
-        // $participant_data = Activebattle::all();
-
-        // $participant_data[$request->get('id')]
         $participant = Activebattle::where('character_id', $request->get('id'))->first();
 
         // If valid; update last known location
@@ -86,11 +75,11 @@ class BattlemapController extends Controller
 
     }
 
+    // Used for testing, to be replaced by validateMove() & validateAction()
     public function returnAjax(Request $request)
     {
         $testingObjectArray = [
             ['id' => 1, 'last_x' => 2, 'last_y' => 6, 'speed' => 5],
-            // ['id' => 1, 'last_x' => 1, 'last_y' => 1, 'speed' => 5],
             ['id' => 2, 'last_x' => 4, 'last_y' => 7, 'speed' => 4]
         ];
 
