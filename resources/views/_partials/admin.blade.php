@@ -6,18 +6,7 @@
         {!! Html::style("css/bootstrap.min.css") !!}
         {!! Html::style("css/select2.min.css") !!}
         @yield('styles')
-
-        <style type="text/css">
-            .input-group > .input-group-btn:last-child > .selectpicker {
-                border-top-right-radius: 5px;
-                border-bottom-right-radius: 5px;
-            }
-
-            .input-group > .input-group-btn:first-child > .selectpicker {
-                border-top-left-radius: 5px;
-                border-bottom-left-radius: 5px;
-            }
-        </style>
+        
     </head>
     <body>
         <div class="wrapper white-navbar">

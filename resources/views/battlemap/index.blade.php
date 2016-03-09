@@ -446,9 +446,6 @@
 								this.advanceTurn();
 							}
 						}
-
-
-
 						console.log('Moved');
 					}
 					console.log('Clear!');
