@@ -1,0 +1,37 @@
+.dropdown-menu {
+    border: 0;
+    border-radius: 3px;
+    margin-top: 2px;
+
+    > li > a,
+    .dropdown-form-button {
+        font-size: 12px;
+        font-weight: 300;
+        color: #504e4e;
+        padding: 10px 20px;
+        min-width: 175px;
+
+        .icon {
+            font-size: 20px;
+        }
+    }
+
+    &::after {
+        border-bottom: 8px solid #fff;
+        border-left: 8px solid transparent;
+        border-right: 8px solid transparent;
+        top: -8px;
+        content: "";
+        display: inline-block;
+        left: 42px;
+        margin-left: -6px;
+        position: absolute;
+    }
+}
+
+.dropdown-menu-right {
+    &::after {
+        left: auto;
+        right: 20px;
+    }
+}

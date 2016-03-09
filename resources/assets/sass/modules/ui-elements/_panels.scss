@@ -1,0 +1,93 @@
+.panel {
+    background-color: #fff;
+    margin-bottom: 30px;
+
+    &.panel-bordered {
+        border-width: 1px;
+    }
+
+    &.panel-default, &.panel-primary,
+    &.panel-success, &.panel-info,
+    &.panel-warning, &.panel-danger,
+    &.panel-inverse {
+        > .panel-heading {
+            margin: 0;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+    }
+}
+
+.panel-heading,
+.panel-footer {
+    border-radius: 0;
+
+    .pagination {
+        margin: 0;
+    }
+}
+
+.panel-footer {
+    padding: 15px 15px 13px;
+    background-color: #f7f7f7;
+    border-top: 1px solid #eaeaea;
+}
+
+.panel-heading {
+    font-size: 18px;
+    font-weight: 300;
+    margin: 0 20px;
+    padding: 20px 0px 15px;
+    border-bottom: 1px solid transparent;
+
+    .controls {
+        float: right;
+        font-size: 0;
+    }
+
+    .panel-title, .title,
+    h1, h2, h3, h4, h5, h6 {
+        font-size: 18px;
+        font-weight: 300;
+        display: block;
+        margin: 0;
+    }
+
+    &.panel-heading-fw {
+        margin: 0;
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    &.no-border {
+        border-width: 0;
+    }
+}
+
+.panel-body {
+    padding: 15px 20px 20px;
+}
+
+// Contextual variations
+// panel-variant($panel-default-border, $panel-default-text, $panel-default-heading-bg, $panel-default-border)
+.panel-default {
+    @include panel-variant($panel-default-border, $panel-default-text, transparent, $panel-default-border);
+}
+.panel-primary {
+    @include panel-variant($panel-default-border, white, $brand-primary, $brand-primary);
+}
+.panel-success {
+    @include panel-variant($panel-default-border, white, $brand-success, $brand-success);
+}
+.panel-info {
+    @include panel-variant($panel-default-border, white, $brand-info, $brand-info);
+}
+.panel-warning {
+    @include panel-variant($panel-default-border, white, $brand-warning, $brand-warning);
+}
+.panel-danger {
+    @include panel-variant($panel-default-border, white, $brand-danger, $brand-danger);
+}
+.panel-inverse {
+    @include panel-variant($panel-default-border, white, $brand-inverse, $brand-inverse);
+}

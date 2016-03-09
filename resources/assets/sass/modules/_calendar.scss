@@ -1,0 +1,346 @@
+.fc {
+    direction: ltr;
+    text-align: left;
+    font-size: $font-size-base;
+
+    table {
+        width: 100%;
+        table-layout: fixed;
+        border-collapse: collapse;
+        border-spacing: 0;
+        font-size: $font-size-base;
+    }
+
+    td, th {
+        padding: $table-cell-padding;
+        vertical-align: top;
+        border-style: solid;
+        border-width: 1px;
+
+        &.fc-widget-header,
+        &.fc-widget-content {
+            padding: 0;
+        }
+
+        &.fc-day-header {
+            padding: $table-cell-padding;
+        }
+    }
+
+    th {
+        text-align: center;
+    }
+
+    .btn {
+        line-height: $line-height-base;
+    }
+
+    button {
+        height: auto;
+        @include button-size($padding-base-vertical, $padding-base-horizontal, $font-size-base, $line-height-base, $btn-border-radius-base);
+
+        .fc-icon {
+            margin: 0;
+        }
+    }
+
+    &.fc-rtl {
+        text-align: right;
+    }
+
+    .fc-view, .fc-view > table {
+        position: relative;
+        z-index: 1;
+    }
+}
+
+.fc-ltr {
+    .fc-basic-view .fc-day-number {
+        text-align: right;
+        padding: $table-cell-padding;
+    }
+}
+
+.fc-clear {
+    clear: both;
+}
+
+.fc-bg,
+.fc-helper-skeleton,
+.fc-bgevent-skeleton,
+.fc-highlight-skeleton {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+}
+
+.fc-bg {
+    bottom: 0;
+}
+
+.fc-toolbar {
+    text-align: center;
+    margin-bottom: 15px;
+
+    h2 {
+        margin: 5px 0 0 0;
+    }
+
+    .fc-left {
+        float: left;
+    }
+
+    .fc-right {
+        float: right;
+    }
+
+    .fc-center {
+        display: inline-block;
+    }
+}
+
+.fc-button {
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: $btn-font-weight;
+    text-align: center;
+    vertical-align: middle;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    text-transform: capitalize;
+    border: 1px solid $table-border-color;
+    white-space: nowrap;
+    @include button-size($padding-base-vertical, $padding-base-horizontal, $font-size-base, $line-height-base, $btn-border-radius-base);
+    @include user-select(none);
+
+    &,
+    &:active,
+    &.active {
+        &:focus,
+        &.focus {
+            @include tab-focus;
+        }
+    }
+
+    &:hover,
+    &:focus,
+    &.focus {
+        color: $btn-default-color;
+        text-decoration: none;
+    }
+
+    &:active,
+    &.active {
+        outline: 0;
+        background-image: none;
+        @include box-shadow(inset 0 3px 5px rgba(0,0,0,.125));
+    }
+
+    &.disabled,
+    &[disabled],
+    fieldset[disabled] & {
+        cursor: $cursor-disabled;
+        @include opacity(.65);
+        @include box-shadow(none);
+    }
+}
+
+.fc-button-group {
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+
+    .fc-button {
+        position: relative;
+        float: left;
+    }
+
+    .fc-button + .fc-button {
+        margin-left: -1px;
+    }
+}
+
+.fc-icon {
+    font-family: 'Pe-icon-7-stroke';
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    position: relative;
+    display: inline-block;
+    width: auto;
+    height: auto;
+    line-height: 1;
+    text-align: center;
+    overflow: hidden;
+}
+
+.fc-icon-left-single-arrow,
+.fc-icon-right-single-arrow {
+    &::after {
+        font-size: 150%;
+        margin: 0;
+    }
+}
+
+.fc-icon-left-single-arrow::after {
+    content: "\e686";
+}
+
+.fc-icon-right-single-arrow::after {
+    content: "\e684";
+}
+
+.fc-state-active {
+    @include button-variant($btn-primary-color, $btn-primary-bg, $btn-primary-border);
+}
+
+.fc-unthemed {
+    th, td, thead, tbody,
+    .fc-divider, .fc-row,
+    .fc-popover {
+        border-color: $table-border-color;
+    }
+
+    .fc-popover {
+        border-width: 1px;
+        border-style: solid;
+        background-color: #fff;
+        position: absolute;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+
+        &.fc-more-popover {
+            z-index: 2;
+            width: 220px;
+
+            &.fc-event-container {
+                padding: 10px;
+            }
+        }
+
+        .fc-header {
+            padding: 8px 10px;
+
+            .fc-close {
+                font-size: .9em;
+                margin-top: 2px;
+                float: right;
+                color: #666;
+                cursor: pointer;
+                width: 1em;
+                height: 1em;
+                line-height: 1em;
+            }
+
+            .fc-title {
+                float: left;
+            }
+        }
+    }
+
+    .fc-divider, .fc-popover .fc-header {
+        background: $table-bg-active;
+    }
+
+    .fc-today {
+        background: $state-warning-bg;
+    }
+}
+
+.fc-view-container *,
+.fc-view-container *::after,
+.fc-view-container *::before {
+    -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+}
+
+.fc-view {
+    width: 100%;
+    position: relative;
+}
+
+.fc-basic-view .fc-body .fc-row {
+    min-height: 4em;
+}
+
+.fc-day-grid .fc-row {
+    z-index: 1;
+}
+
+.fc-row {
+    position: relative;
+
+    &:first-child table {
+        border-top: 0 hidden transparent;
+    }
+
+    &.fc-rigid {
+        overflow: hidden;
+
+        .fc-content-skeleton {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+        }
+    }
+
+    table {
+        border-left: 0 hidden transparent;
+        border-right: 0 hidden transparent;
+        border-bottom: 0 hidden transparent;
+    }
+
+    .fc-content-skeleton {
+        position: relative;
+        z-index: 4;
+        padding-bottom: 2px;
+    }
+
+    .fc-content-skeleton td,
+    .fc-helper-skeleton td {
+        border-color: transparent;
+        border: 0;
+        padding: 0 5px;
+    }
+
+    .fc-bg {
+        z-index: 1;
+    }
+}
+
+.fc-bg {
+    table {
+        height: 100%;
+    }
+}
+
+.fc-event {
+    padding: 5px;
+    margin: 0 0 3.5px 0;
+    color: #fff;
+    display: block;
+    font-size: .85em;
+    line-height: 1;
+    border-radius: 3px;
+    border: 1px solid $brand-primary;
+    background-color: $brand-primary;
+
+    .fc-content {
+        white-space: nowrap;
+        overflow: hidden;
+    }
+}
+
+.fc-other-month {
+    background-color: $table-bg-active;
+}
+
+a.fc-more {
+    margin: 1px 3px;
+    font-size: .85em;
+    cursor: pointer;
+}

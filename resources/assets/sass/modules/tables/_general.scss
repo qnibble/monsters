@@ -1,0 +1,48 @@
+.table {
+    > thead,
+    > tbody,
+    > tfoot {
+        > tr {
+            > th,
+            > td {
+                vertical-align: middle;
+            }
+        }
+    }
+
+    > thead > tr > th {
+        font-weight: 800;
+        padding: 12px 8px;
+        border-bottom-width: 1px;
+        background-color: #f7f7f7;
+    }
+}
+
+.table-striped > tbody > tr:nth-of-type(2n+1) {
+    background-color: #f9f9f9;
+}
+
+.table-widget,
+.panel.table-widget {
+    > .panel-heading {
+        padding-left: 15px;
+        padding-right: 15px;
+    }
+
+    thead,
+    tbody,
+    tfoot {
+        > tr {
+            > th,
+            > td {
+                &:first-child {
+                    padding-left: 15px;
+                }
+
+                &:last-child {
+                    padding-right: 15px;
+                }
+            }
+        }
+    }
+}

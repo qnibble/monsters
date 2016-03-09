@@ -1,0 +1,117 @@
+@media screen and (max-width: 767px) {
+    .open-left-sidebar {
+        .wrapper {
+            overflow: hidden;
+        }
+
+        .left-sidebar {
+            transform: translate3d(0, 0, 0);
+        }
+
+        .wrapper-content, .am-top-header {
+            transform: translate3d(85%, 0, 0);
+        }
+    }
+
+    .left-sidebar {
+        width: 85%;
+        height: 100%;
+        overflow: auto;
+        overflow-scrolling: touch;
+        position: fixed;
+        top: 0;
+        transform: translate3d(-100%, 0, 0);
+
+        .am-logo {
+            background-image: url(../../img/inline-inverse-logo.png);
+            background-position: 15px center;
+            background-repeat: no-repeat;
+            background-size: auto 60px;
+            background-color: #393838;
+            height: 70px;
+            border-bottom: 1px solid #353434;
+            display: block;
+        }
+
+        .sidebar-elements {
+            > li {
+                &.parent > a::after {
+                    content: '\e688';
+                    float: right;
+                    font-family: 'Pe-icon-7-stroke';
+                    font-size: 26px;
+                    line-height: 28px;
+                    color: #a1a1a1;
+                }
+
+                > a {
+                    text-align: left;
+                    position: relative;
+
+                    .icon {
+                        display: inline-block;
+                        font-size: 25px;
+                        margin-right: 10px;
+                        vertical-align: middle;
+                    }
+
+                    span {
+                        display: inline-block;
+                    }
+                }
+
+                > ul {
+                    position: relative;
+                    height: auto;
+                    width: 100%;
+                    left: 0;
+
+                    > .title {
+                        display: none;
+                    }
+                }
+
+                > ul > .nav-items {
+                    display: block;
+                    height: auto;
+
+                    > .am-scroller {
+                        height: auto;
+                        overflow: visible;
+
+                        > .content {
+                            padding-top: 0;
+                            overflow: visible;
+                            position: relative;
+
+                            > ul {
+                                padding: 0;
+                                margin: 0;
+                            }
+                        }
+                    }
+                }
+
+                .divider {
+                    margin: 5px 0;
+                }
+
+                &:hover {
+                    > ul {
+                        display: none;
+                    }
+                }
+
+                &.open > ul {
+                    display: block;
+                }
+            }
+        }
+    }
+
+    .right-sidebar {
+        width: 85%;
+        right: 0;
+        transform: translate3d(100%, 0, 0);
+    }
+}

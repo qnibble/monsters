@@ -1,0 +1,197 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway:300,400,500,600);
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:300,400,600);
+
+// $brand-primary:             #3BC0C3;
+// $brand-success:             #58C386;
+// $brand-info:                #46B6E1;
+// $brand-warning:             #7D7AB6;
+// $brand-danger:              #F06088;
+// $brand-inverse:             #3D3C3C;
+
+// $body-bg:                   #edf0f0;
+// $link-color:                $brand-primary;
+// $navbar-bg:                 $brand-primary;
+// $sidebar-bg:                $brand-inverse;
+// $navbar-txt-color:          #ffffff;
+// $sidebar-txt-color:         $brand-inverse;
+
+// $pagination-active-bg:      $link-color;
+// $pagination-active-border:  $link-color;
+
+// $alert-padding:             18px;
+
+// $modal-inner-padding:       20px;
+// $modal-title-padding:       20px;
+
+// $border-radius-base:        0;
+// $border-radius-large:       0;
+// $border-radius-small:       0;
+// $padding-base-vertical:     8px;
+// $padding-base-horizontal:   12px;
+
+$font-family-sans-serif:    "Open Sans", sans-serif;
+$font-size-base:            13px;
+
+@import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+body {
+    padding: 0;
+    height: 100%;
+}
+
+a:focus, a:hover {
+    text-decoration: none;
+    outline: 0;
+}
+
+.wrapper {
+    min-height: 100%;
+    padding-top: 80px;
+}
+
+.left-sidebar {
+    background-color: $sidebar-bg;
+    width: 100px;
+    height: 100%;
+    left: 0;
+    position: absolute;
+
+    .am-logo {
+        display: none;
+    }
+
+    &::before {
+        content: "";
+        position: fixed;
+        z-index: -1;
+        width: inherit;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        background-color: inherit;
+    }
+}
+
+.wrapper-content {
+    position: relative;
+    left: 0;
+    margin-left: 100px;
+    min-height: 100%;
+
+    .page-head {
+        background: #fff;
+        padding: 20px 35px;
+        position: relative;
+
+        h2 {
+            margin-bottom: 5px;
+            margin-top: 6px;
+            font-weight: 300;
+            letter-spacing: -1px;
+            font-size: 28px;
+            line-height: 36px;
+        }
+
+        .breadcrumb {
+            background: none;
+            margin-bottom: 0;
+            padding: 4px;
+            font-size: 12px;
+        }
+    }
+
+    .main-content {
+        padding-left: 35px;
+        padding-right: 35px;
+        padding-top: 35px;
+    }
+}
+
+@media (max-width: 767px) {
+    .wrapper {
+        padding-top: 0px;
+    }
+
+    .wrapper-content {
+        margin-left: 0;
+
+        .page-head {
+            padding: 18px 15px 20px;
+        }
+
+        .main-content {
+            height: 100%;
+            overflow: auto;
+            overflow-scrolling: touch;
+            padding-left: 15px;
+            padding-right: 15px;
+            padding-top: 20px;
+        }
+    }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+    .wrapper-content .page-head {
+        padding: 20px 25px;
+    }
+}
+
+.dropdown-menu {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+    border-color: rgba(0, 0, 0, 0.1);
+
+    > li > a .icon {
+        font-size: 17px;
+        line-height: 15px;
+        vertical-align: middle;
+        margin-right: 10px;
+    }
+}
+
+.sub-heading {
+    position: relative;
+    padding-bottom: 10px;
+    margin-top: 0;
+    margin-bottom: 15px;
+    border-bottom: 1px solid $gray-lighter;
+    font-size: 16px;
+    text-transform: capitalize;
+    line-height: 24px;
+
+    &::before {
+        position: absolute;
+        content: "";
+        height: 1px;
+        background: $brand-primary;
+        width: 90px;
+        bottom: -1px;
+        left: 0px;
+    }
+}
+
+// Base Styling
+// ==============================
+@import "modules/dropdowns";
+@import "modules/navbar";
+@import "modules/sidebar";
+@import "modules/offcanvas";
+@import "modules/calendar";
+
+// UI Elements
+// ==============================
+@import "modules/ui-elements/alerts";
+@import "modules/ui-elements/buttons";
+@import "modules/ui-elements/datepicker";
+@import "modules/ui-elements/modals";
+@import "modules/ui-elements/panels";
+@import "modules/ui-elements/timepicker";
+@import "modules/ui-elements/toggles";
+
+// Forms
+// ==============================
+@import "modules/form";
+
+// Tables
+// ==============================
+@import "modules/tables/datatable";
+@import "modules/tables/general";

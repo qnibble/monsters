@@ -1,0 +1,50 @@
+.dataTables_length, .dataTables_filter {
+    select.form-control {
+        padding: 2px;
+    }
+    input.form-control {
+        height: 30px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+}
+
+.panel > .table-responsive > .dt-bootstrap,
+.panel > .dt-bootstrap {
+    .row:first-child, .row:last-child {
+        margin: 0;
+    }
+
+    .row:last-child {
+        background-color: $panel-footer-bg;
+        border-top: 1px solid $panel-inner-border;
+    }
+
+    .dataTable {
+        max-width: 100% !important;
+        margin: 0 !important;
+    }
+
+    .dataTables_length, .dataTables_filter,
+    .dataTables_info {
+        padding: 20px 3px;
+        color: #767676;
+
+        label {
+            margin: 0;
+        }
+    }
+
+    .dataTables_info {
+        padding-top: 24px;
+        padding-bottom: 15px;
+    }
+
+    .dataTables_paginate {
+        padding: 15px 3px;
+
+        .pagination {
+            margin: 0;
+        }
+    }
+}

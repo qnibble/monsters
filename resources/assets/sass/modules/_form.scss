@@ -1,0 +1,121 @@
+.form-control {
+    box-shadow: none;
+    padding: 10px 12px;
+    font-size: 14px;
+    border-radius: 0;
+    height: 44px;
+    background-color: #fff;
+    border: 1px solid #eaeaea;
+    border-width: 2px;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+
+    &:focus {
+        box-shadow: none;
+        border-color: #d1d1d1;
+        outline: 0;
+    }
+}
+
+.input-sm {
+    padding: 5px 10px;
+    font-size: 13px;
+    height: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: 400;
+    font-size: 14px;
+    margin-bottom: 8px;
+    display: inline-block;
+    max-width: 100%;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
+    margin: 4px 0 0;
+    margin-top: 1px\9;
+    line-height: normal;
+    box-sizing: border-box;
+    padding: 0;
+}
+
+.checkbox,
+.radio {
+    margin-top: 0;
+    line-height: 22px;
+
+    label {
+        margin-bottom: 0;
+    }
+
+    input[type="checkbox"],
+    input[type="radio"] {
+        margin: 0;
+        display: none;
+        width: 22px;
+
+        &:checked + span::before {
+            content: "\e680";
+            font-family: 'Pe-icon-7-stroke';
+            color: $link-color;
+            border-color: $link-color;
+        }
+    }
+
+    input[type="checkbox"] + span,
+    input[type="radio"] + span {
+        padding-left: 0;
+
+        &::before {
+            content: "";
+            width: 22px;
+            height: 22px;
+            display: inline-block;
+            border: 2px solid #eaeaea;
+            margin-right: 5px;
+            font-size: 18px;
+            font-family: 'Pe-icon-7-stroke';
+            font-weight: 400;
+            line-height: 19px;
+            vertical-align: bottom;
+            text-align: center;
+            background-color: transparent;
+            cursor: pointer;
+        }
+    }
+
+    input[type="radio"] + span::before {
+        border-radius: 50%;
+        line-height: 19px;
+        font-size: 14px;
+    }
+
+    &.inline {
+        display: inline-block;
+        margin-left: 18px;
+    }
+}
+
+.input-group-addon {
+    .checkbox, .radio {
+        input[type="checkbox"],
+        input[type="radio"] {
+            &:checked + span::before {
+                color: $link-color;
+                border-color: $link-color;
+            }
+        }
+
+        input[type="checkbox"] + span,
+        input[type="radio"] + span {
+            &::before {
+                border: 2px solid #999;
+                margin-right: 0;
+            }
+        }
+    }
+}
