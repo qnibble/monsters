@@ -22,114 +22,19 @@
 					<th is="rowOne" row='1' column='9' occupied="false"></th>
 					<th is="rowOne" row='1' column='10' occupied="false"></th>
 				</tr>
-				<tr>
-					<th id="row2_col1" class="battleTile" v-on:click="processClick"><label style="color:grey">(1, 2)</label></th>
-					<th id="row2_col2" class="battleTile" v-on:click="processClick"><label style="color:grey">(2, 2)</label></th>
-					<th id="row2_col3" class="battleTile" v-on:click="processClick"><label style="color:grey">(3, 2)</label></th>
-					<th id="row2_col4" class="battleTile" v-on:click="processClick"><label style="color:grey">(4, 2)</label></th>
-					<th id="row2_col5" class="battleTile" v-on:click="processClick"><label style="color:grey">(5, 2)</label></th>
-					<th id="row2_col6" class="battleTile" v-on:click="processClick"><label style="color:grey">(6, 2)</label></th>
-					<th id="row2_col7" class="battleTile" v-on:click="processClick"><label style="color:grey">(7, 2)</label></th>
-					<th id="row2_col8" class="battleTile" v-on:click="processClick"><label style="color:grey">(8, 2)</label></th>
-					<th id="row2_col9" class="battleTile" v-on:click="processClick"><label style="color:grey">(9, 2)</label></th>
-					<th id="row2_col10" class="battleTile" v-on:click="processClick"><label style="color:grey">(10, 2)</label></th>
-				</tr>
-				<tr>
-					<th id="row3_col1" class="battleTile" v-on:click="processClick"><label style="color:grey">(1, 3)</label></th>
-					<th id="row3_col2" class="battleTile" v-on:click="processClick"><label style="color:grey">(2, 3)</label></th>
-					<th id="row3_col3" class="battleTile" v-on:click="processClick"><label style="color:grey">(3, 3)</label></th>
-					<th id="row3_col4" class="battleTile" v-on:click="processClick"><label style="color:grey">(4, 3)</label></th>
-					<th id="row3_col5" class="battleTile" v-on:click="processClick"><label style="color:grey">(5, 3)</label></th>
-					<th id="row3_col6" class="battleTile" v-on:click="processClick"><label style="color:grey">(6, 3)</label></th>
-					<th id="row3_col7" class="battleTile" v-on:click="processClick"><label style="color:grey">(7, 3)</label></th>
-					<th id="row3_col8" class="battleTile" v-on:click="processClick"><label style="color:grey">(8, 3)</label></th>
-					<th id="row3_col9" class="battleTile" v-on:click="processClick"><label style="color:grey">(9, 3)</label></th>
-					<th id="row3_col10" class="battleTile" v-on:click="processClick"><label style="color:grey">(10, 3)</label></th>
-				</tr>
-				<tr>
-					<th id="row4_col1" class="battleTile" v-on:click="processClick"><label style="color:grey">(1, 4)</label></th>
-					<th id="row4_col2" class="battleTile" v-on:click="processClick"><label style="color:grey">(2, 4)</label></th>
-					<th id="row4_col3" class="battleTile" v-on:click="processClick"><label style="color:grey">(3, 4)</label></th>
-					<th id="row4_col4" class="battleTile" v-on:click="processClick"><label style="color:grey">(4, 4)</label></th>
-					<th id="row4_col5" class="battleTile" v-on:click="processClick"><label style="color:grey">(5, 4)</label></th>
-					<th id="row4_col6" class="battleTile" v-on:click="processClick"><label style="color:grey">(6, 4)</label></th>
-					<th id="row4_col7" class="battleTile" v-on:click="processClick"><label style="color:grey">(7, 4)</label></th>
-					<th id="row4_col8" class="battleTile" v-on:click="processClick"><label style="color:grey">(8, 4)</label></th>
-					<th id="row4_col9" class="battleTile" v-on:click="processClick"><label style="color:grey">(9, 4)</label></th>
-					<th id="row4_col10" class="battleTile" v-on:click="processClick"><label style="color:grey">(10, 4)</label></th>
-				</tr>
-				<tr>
-					<th id="row5_col1" class="battleTile" v-on:click="processClick"><label style="color:grey">(1, 5)</label></th>
-					<th id="row5_col2" class="battleTile" v-on:click="processClick"><label style="color:grey">(2, 5)</label></th>
-					<th id="row5_col3" class="battleTile" v-on:click="processClick"><label style="color:grey">(3, 5)</label></th>
-					<th id="row5_col4" class="battleTile" v-on:click="processClick"><label style="color:grey">(4, 5)</label></th>
-					<th id="row5_col5" class="battleTile" v-on:click="processClick"><label style="color:grey">(5, 5)</label></th>
-					<th id="row5_col6" class="battleTile" v-on:click="processClick"><label style="color:grey">(6, 5)</label></th>
-					<th id="row5_col7" class="battleTile" v-on:click="processClick"><label style="color:grey">(7, 5)</label></th>
-					<th id="row5_col8" class="battleTile" v-on:click="processClick"><label style="color:grey">(8, 5)</label></th>
-					<th id="row5_col9" class="battleTile" v-on:click="processClick"><label style="color:grey">(9, 5)</label></th>
-					<th id="row5_col10" class="battleTile" v-on:click="processClick"><label style="color:grey">(10, 5)</label></th>
-				</tr>
-				<tr>
-					<th id="row6_col1" class="battleTile" v-on:click="processClick"><label style="color:grey">(1, 6)</label></th>
-					<th id="row6_col2" class="battleTile" v-on:click="processClick"><label style="color:grey">(2, 6)</label></th>
-					<th id="row6_col3" class="battleTile" v-on:click="processClick"><label style="color:grey">(3, 6)</label></th>
-					<th id="row6_col4" class="battleTile" v-on:click="processClick"><label style="color:grey">(4, 6)</label></th>
-					<th id="row6_col5" class="battleTile" v-on:click="processClick"><label style="color:grey">(5, 6)</label></th>
-					<th id="row6_col6" class="battleTile" v-on:click="processClick"><label style="color:grey">(6, 6)</label></th>
-					<th id="row6_col7" class="battleTile" v-on:click="processClick"><label style="color:grey">(7, 6)</label></th>
-					<th id="row6_col8" class="battleTile" v-on:click="processClick"><label style="color:grey">(8, 6)</label></th>
-					<th id="row6_col9" class="battleTile" v-on:click="processClick"><label style="color:grey">(9, 6)</label></th>
-					<th id="row6_col10" class="battleTile" v-on:click="processClick"><label style="color:grey">(10, 6)</label></th>
-				</tr>
-				<tr>
-					<th id="row7_col1" class="battleTile" v-on:click="processClick"><label style="color:grey">(1, 7)</label></th>
-					<th id="row7_col2" class="battleTile" v-on:click="processClick"><label style="color:grey">(2, 7)</label></th>
-					<th id="row7_col3" class="battleTile" v-on:click="processClick"><label style="color:grey">(3, 7)</label></th>
-					<th id="row7_col4" class="battleTile" v-on:click="processClick"><label style="color:grey">(4, 7)</label></th>
-					<th id="row7_col5" class="battleTile" v-on:click="processClick"><label style="color:grey">(5, 7)</label></th>
-					<th id="row7_col6" class="battleTile" v-on:click="processClick"><label style="color:grey">(6, 7)</label></th>
-					<th id="row7_col7" class="battleTile" v-on:click="processClick"><label style="color:grey">(7, 7)</label></th>
-					<th id="row7_col8" class="battleTile" v-on:click="processClick"><label style="color:grey">(8, 7)</label></th>
-					<th id="row7_col9" class="battleTile" v-on:click="processClick"><label style="color:grey">(9, 7)</label></th>
-					<th id="row7_col10" class="battleTile" v-on:click="processClick"><label style="color:grey">(10, 7)</label></th>
-				</tr>
-				<tr>
-					<th id="row8_col1" class="battleTile" v-on:click="processClick"><label style="color:grey">(1, 8)</label></th>
-					<th id="row8_col2" class="battleTile" v-on:click="processClick"><label style="color:grey">(2, 8)</label></th>
-					<th id="row8_col3" class="battleTile" v-on:click="processClick"><label style="color:grey">(3, 8)</label></th>
-					<th id="row8_col4" class="battleTile" v-on:click="processClick"><label style="color:grey">(4, 8)</label></th>
-					<th id="row8_col5" class="battleTile" v-on:click="processClick"><label style="color:grey">(5, 8)</label></th>
-					<th id="row8_col6" class="battleTile" v-on:click="processClick"><label style="color:grey">(6, 8)</label></th>
-					<th id="row8_col7" class="battleTile" v-on:click="processClick"><label style="color:grey">(7, 8)</label></th>
-					<th id="row8_col8" class="battleTile" v-on:click="processClick"><label style="color:grey">(8, 8)</label></th>
-					<th id="row8_col9" class="battleTile" v-on:click="processClick"><label style="color:grey">(9, 8)</label></th>
-					<th id="row8_col10" class="battleTile" v-on:click="processClick"><label style="color:grey">(10, 8)</label></th>
-				</tr>
-				<tr>
-					<th id="row9_col1" class="battleTile" v-on:click="processClick"><label style="color:grey">(1, 9)</label></th>
-					<th id="row9_col2" class="battleTile" v-on:click="processClick"><label style="color:grey">(2, 9)</label></th>
-					<th id="row9_col3" class="battleTile" v-on:click="processClick"><label style="color:grey">(3, 9)</label></th>
-					<th id="row9_col4" class="battleTile" v-on:click="processClick"><label style="color:grey">(4, 9)</label></th>
-					<th id="row9_col5" class="battleTile" v-on:click="processClick"><label style="color:grey">(5, 9)</label></th>
-					<th id="row9_col6" class="battleTile" v-on:click="processClick"><label style="color:grey">(6, 9)</label></th>
-					<th id="row9_col7" class="battleTile" v-on:click="processClick"><label style="color:grey">(7, 9)</label></th>
-					<th id="row9_col8" class="battleTile" v-on:click="processClick"><label style="color:grey">(8, 9)</label></th>
-					<th id="row9_col9" class="battleTile" v-on:click="processClick"><label style="color:grey">(9, 9)</label></th>
-					<th id="row9_col10" class="battleTile" v-on:click="processClick"><label style="color:grey">(10, 9)</label></th>
-				</tr>
-				<tr>
-					<th id="row10_col1" class="battleTile" v-on:click="processClick"><label style="color:grey">(1, 10)</label></th>
-					<th id="row10_col2" class="battleTile" v-on:click="processClick"><label style="color:grey">(2, 10)</label></th>
-					<th id="row10_col3" class="battleTile" v-on:click="processClick"><label style="color:grey">(3, 10)</label></th>
-					<th id="row10_col4" class="battleTile" v-on:click="processClick"><label style="color:grey">(4, 10)</label></th>
-					<th id="row10_col5" class="battleTile" v-on:click="processClick"><label style="color:grey">(5, 10)</label></th>
-					<th id="row10_col6" class="battleTile" v-on:click="processClick"><label style="color:grey">(6, 10)</label></th>
-					<th id="row10_col7" class="battleTile" v-on:click="processClick"><label style="color:grey">(7, 10)</label></th>
-					<th id="row10_col8" class="battleTile" v-on:click="processClick"><label style="color:grey">(8, 10)</label></th>
-					<th id="row10_col9" class="battleTile" v-on:click="processClick"><label style="color:grey">(9, 10)</label></th>
-					<th id="row10_col10" class="battleTile" v-on:click="processClick"><label style="color:grey">(10, 10)</label></th>
-				</tr>
+				<?php 
+					// Temporary 10x10 grid || Size to be passed by controller in the future
+					// Laravel blade's for will also be replaced by Vue's v-for
+					$grid_rows = 10; 
+					$grid_columns = 10;
+				?>
+				@for($rowIndex = 2; $rowIndex <= $grid_rows; $rowIndex++)
+					<tr>
+						@for($columnIndex = 1; $columnIndex <= $grid_columns; $columnIndex++)
+							{!! "<th id='row{$rowIndex}_col{$columnIndex}' class='battleTile' v-on:click='processClick'><label style='color:grey'>({$columnIndex}, {$rowIndex})</label></th>" !!}
+						@endfor
+					</tr> 
+				@endfor
 			</tbody>
 		</table>
 		</div>
