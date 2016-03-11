@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 
 use App\Activebattle;
 use App\Character;
+use App\Derivedstats;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -51,57 +52,77 @@ class BattlemapController extends Controller
 
     public function validateMove(Request $request)
     {
-        $participant = Activebattle::where('character_id', $request->get('id'))->first();
+        $participant = Activebattle::where('character_id', $request->get('character_id'))->first();
+        $character_speed = Derivedstats::find($request->get('character_id'))->speed;
 
-        // If valid; update last known location
-        $participant->update([
-            'last_x' => $request->get('new_x'),
-            'last_y' => $request->get('new_y')
-        ]);
+        $move_from_x = $request->get('x_old');
+        $move_from_y = $request->get('y_old');
+        $move_to_x = $request->get('x_new');
+        $move_to_y = $request->get('y_new');
+
+        $distance = abs($move_from_x - $move_to_x) + abs($move_from_y - $move_to_y);
+
+        if ($distance > $character_speed) 
+        {
+            // Invalid move; Return Mapdata and Redraw board state
+            return $this->getLastKnownGoodMapValues();
+        }
+        else 
+        {
+            $participant->update([
+                'last_x' => $move_to_x,
+                'last_y' => $move_to_y
+            ]);
+
+            return 'Valid Move';
+        }
     }
 
     public function validateAction(Request $request)
     {
-        $participant_data = Activebattle::all();
+        $attacker = Character::with('equipmentslots')->find($request->get('attacker_id'));
+        $defender = Character::with('equipmentslots')->find($request->get('defender_id'));
+
+        $distance = abs($request->get('attacker_pos_x') - $request->get('defender_pos_x')) + abs($request->get('attacker_pos_y') - $request->get('defender_pos_y'));
 
         if ($request->get('type') == 'weapon')
         {
+            $weaponRange = $attacker->equipmentslots->weapon->range;
+            // return $attacker->name . ' is attacking ' . $defender->name . ' with a ' . $attacker->equipmentslots->weapon->name . ' (Range: '.$weaponRange.')';
 
+            if ($weaponRange > $distance)
+            {
+                return 'Valid';
+            }
+            else
+            {
+                // Invalid attack; Return Mapdata and Redraw board state
+                return $this->getLastKnownGoodMapValues();
+            }
         }
         elseif ($request->get('type') == 'ability') 
         {
 
         }
-
     }
 
-    // Used for testing, to be replaced by validateMove() & validateAction()
-    public function returnAjax(Request $request)
+    // Will not as of yet respect anything other than characters' locations (Ex: turn number, hasMoved status, etc)
+    protected function getLastKnownGoodMapValues()
     {
-        $testingObjectArray = [
-            ['id' => 1, 'last_x' => 2, 'last_y' => 6, 'speed' => 5],
-            ['id' => 2, 'last_x' => 4, 'last_y' => 7, 'speed' => 4]
-        ];
+        $participants = Activebattle::all();
 
-        $attackRange = abs($request->get('attacker_pos_x') - $request->get('defender_pos_x')) + abs($request->get('attacker_pos_y') - $request->get('defender_pos_y'));
-
-        $weaponRange = 1 ;
-
-        $attacker = $testingObjectArray[$request->get('attacker_id')];
-        $defender = $testingObjectArray[$request->get('defender_id')];
-
-        $movementDistance = abs($attacker['last_x'] - $request->get('attacker_pos_x')) + abs($attacker['last_y'] - $request->get('attacker_pos_y'));
-
-        if ($movementDistance > $attacker['speed'] ) 
+        $map_data = [];
+        foreach ($participants as $participant)
         {
-            return 'Invalid';
-        } 
-        else 
-        {
-            return 'Valid';
+            $tempObject = [
+                'startLocation' => ['x' => $participant->last_x, 'y' => $participant->last_y],
+                'character' => Character::with('statistics', 'derivedstats', 'equipmentslots')->find($participant->character_id)
+            ];
+
+            array_push($map_data, $tempObject);
         }
 
-        // return $request->all();
+        return $map_data;
     }
 
     /**

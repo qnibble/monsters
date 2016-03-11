@@ -18,7 +18,9 @@
 Route::get('/', 'AdminController@Index');
 
 Route::get('battlemap', 'BattlemapController@index');
-Route::get('battlemap/ajaxtest', 'BattlemapController@returnAjax');
+// Route::get('battlemap/ajaxtest', 'BattlemapController@returnAjax');
+Route::get('battlemap/validatemove', 'BattlemapController@validateMove');
+Route::get('battlemap/validateaction', 'BattlemapController@validateAction');
 
 Route::resource('effects', 'EffectController');
 

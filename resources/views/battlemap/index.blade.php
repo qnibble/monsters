@@ -255,7 +255,6 @@
 					console.log('Cell is unoccupied');
 				}
 			},
-			// Function will in future validate move server-side and redraw map to last known accepted values on validation failure
 			moveSelectedCharacter: function (xLocation, yLocation) {
 				// Move cost calculation
 				var speed = this.characterData[this.characterSelected_id]['data']['derivedstats']['speed'];
@@ -267,6 +266,15 @@
 				} else {
 					console.log('Move within cost limitation. Cost: ' + cost);
 					
+					var validation_data = {
+						'_token' : '{{ csrf_token() }}',
+						'character_id': this.characterSelected_id + 1,
+						'x_old': this.characterData[this.characterSelected_id]['locationX'], 
+						'x_new': xLocation, 
+						'y_old': this.characterData[this.characterSelected_id]['locationY'], 
+						'y_new': yLocation 
+					};
+
 					renderAt('(' + xLocation + ', ' + yLocation + ')', this.characterData[this.characterSelected_id]['data']['icon']);
 					emptyCell('(' + this.characterSelected_x + ', ' + this.characterSelected_y + ')');
 
@@ -284,27 +292,41 @@
 						this.charactersToMove = 0;
 						this.advanceTurn();
 					}
+
+					this.$http({url: '{{ url("battlemap/validatemove") }}', data: validation_data, method: 'GET'}).then(function (response) {
+						//console.log(response.data);
+						if (response.data == 'Valid Move') {
+							console.log('Valid Move');
+						} else if (response.data == 'Invalid') {
+							// this.showAlert = true;
+							// console.log('Move not Valid');
+							// Still need to figure how to store turn number before I can continue with redraw (Which is actually quite simple)
+						}
+					}, function (response) {
+						// error callback
+					});
 				}
 			},
 			postInteraction: function (xLocation, yLocation, targetCharacter_id) {
 				var validation_data = {
 					'_token' : '{{ csrf_token() }}',
-					'attacker_id': this.characterSelected_id,
+					'attacker_id': this.characterSelected_id + 1,
 					'attacker_pos_x' : this.characterSelected_x, 
 					'attacker_pos_y' : this.characterSelected_y,
-					'defender_id' : targetCharacter_id,
+					'defender_id' : targetCharacter_id + 1,
 					'defender_pos_x' : xLocation,
 					'defender_pos_y' : yLocation,
 					'type' : 'weapon' 
 				};
 
-				this.$http({url: '{{ url("battlemap/ajaxtest") }}', data: validation_data, method: 'GET'}).then(function (response) {
+				this.$http({url: '{{ url("battlemap/validateaction") }}', data: validation_data, method: 'GET'}).then(function (response) {
 					//console.log(response.data);
 					if (response.data == 'Valid') {
 						console.log('Valid Move');
-					} else if (response.data == 'Invalid') {
+					} else {
 						this.showAlert = true;
 						console.log('Move not Valid');
+						// Still need to figure how to store turn number before I can continue with redraw (Which is actually quite simple)
 					}
 				}, function (response) {
 					// error callback
