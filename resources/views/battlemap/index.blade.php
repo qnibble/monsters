@@ -2,8 +2,6 @@
 
 @section('content')
 <div id="boardScope">
-	<button class="btn btn-success btn-lg" v-on:click="showModal = true">Move Character</button>
-
 	<label>Turn #@{{ turnNumber }} Character Moves: @{{ charactersToMove }}</label>
 
 	<div class="row">
@@ -84,49 +82,14 @@
 		</div>
 	</div>
 
-	<modal :show.sync="showModal">
-		<div slot="modal-header" class="modal-header">
-			<h4 class="modal-title">Move Character</h4>
-		</div>
-		<div slot="modal-body" class="modal-body">
-			<div class="row">
-				<pre>C: @{{ toMove_char }}, (@{{ toMove_x }}, @{{ toMove_y }})</pre>
-			</div>
-			<div class="row">
-				<div class="col-sm-6">
-					<label>Which character?</label>
-					<select type="text" class="form-control" v-model="toMove_char">
-					@foreach($character_names as $key => $name)
-						<option value="{{ $key }}">{{ $name }}</option>
-					@endforeach
-					</select>
-				</div>
-				<div class="col-sm-3">
-					<label>X</label>
-					<input type="text" class="form-control" v-model="toMove_x" />
-				</div>
-				<div class="col-sm-3">
-					<label>Y</label>
-					<input type="text" class="form-control" v-model="toMove_y" />
-				</div>
-			</div>
-		</div>
-		<div slot="modal-footer" class="modal-footer">
-			<span class="pull-right">
-				<button class="btn btn-default" v-on:click="showModal = false">Close</button>
-				<button class="btn btn-primary" v-on:click="setLocation">Move</button>
-			</span>
-		</div>
-	</modal>
-
 	<alert
-	  :show.sync="showTop"
+	  :show.sync="showAlert"
 	  :duration="2000"
 	  type="danger"
 	  width="400px"
 	  placement="top"
 	  dismissable>
-	  <span class="icon-info-circled alert-icon-float-left"></span>
+	  <span class="glyphicon glyphicon-alert"></span>
 	  <strong>Out of range</strong>
 	  <!-- p>The selected character cannot move that far.</p -->
 	</alert>
@@ -148,18 +111,13 @@
 	      }
 	    },
 		data: {
-			showTop: false,
-			showRight: false,
-			showModal: false,
+			showAlert: false,
 			turnNumber: 1,
 			charactersToMove: {{ count($map_data) }},
 			characterSelected: false,
 			characterSelected_id: 0,
 			characterSelected_x: -1,
 			characterSelected_y: -1,
-			toMove_char: 1,
-			toMove_x: 1,
-			toMove_y: 1,
 			characterData: [  
 				@foreach($map_data as $char_data)
 					{ 
@@ -173,8 +131,8 @@
 			
 		},
 		components: {
-			sidebar: VueStrap.aside,
-			modal: VueStrap.modal,
+			// sidebar: VueStrap.aside,
+			// modal: VueStrap.modal,
 			alert: VueStrap.alert,
 			'rowOne': {
 				props: ['row', 'column', 'occupied'],
@@ -191,14 +149,6 @@
 		    }
 		},
 		methods: {
-			setLocation: function() {
-				this.showModal = false;
-				var charToMove = parseInt(this.toMove_char);
-				emptyCell('(' + this.characterData[charToMove]['locationX'] + ', ' + this.characterData[charToMove]['locationY'] + ')');
-				this.characterData[charToMove]['locationX'] = this.toMove_x;
-				this.characterData[charToMove]['locationY'] = this.toMove_y;
-				renderAt('(' + this.toMove_x + ', ' + this.toMove_y + ')', this.characterData[charToMove]['data']['icon']);
-			},
 			cellToConsole: function(e) {
 				console.log('cellToConsole: ' + e.target.column);
 			},
@@ -220,7 +170,7 @@
 				// Get location data
 				var yLocation = cellID.substring(3, 4);
 				var xLocation = cellID.substring(8, 9);
-				console.log('e.target: ' + cellID + '. x:' + xLocation + '. y:' + yLocation);
+				// console.log('e.target: ' + cellID + '. x:' + xLocation + '. y:' + yLocation);
 
 				// Check cell occupation
 				var isOccupied = false;
@@ -239,12 +189,9 @@
 
 				// Where the magic happens
 				if (isOccupied) {
-					// Always show clicked character's stat panel
-					// this.showRight = true; //figure out how to not hide/greyout page
-
 					// Check if character has moved
 					if(this.characterData[this.characterSelected_id]['hasMoved']) {
-						// has Moved
+						// Refuse interaction
 						return;
 					} 
 
@@ -267,51 +214,31 @@
 							var distance = Math.abs(this.characterSelected_x - xLocation) + Math.abs(this.characterSelected_y - yLocation);
 							var range = this.characterData[this.characterSelected_id]['data']['equipmentslots']['weapon']['range'];
 							if (distance > range) {
-								this.showTop = true;
+								this.showAlert = true;
 							} else {
 								console.log('I am whacking him!');
-								// Post for executing attack server-side
-								var form_data = {
-									'_token' : '{{ csrf_token() }}',
-									'attacker_id': this.characterSelected_id,
-									'attacker_pos_x' : this.characterSelected_x, 
-									'attacker_pos_y' : this.characterSelected_y,
-									'defender_id' : targetCharacter_id,
-									'defender_pos_x' : xLocation,
-									'defender_pos_y' : yLocation,
-									'type' : 'weapon' 
-								};
-
-						        this.$http({url: '{{ url("battlemap/ajaxtest") }}', data: form_data, method: 'GET'}).then(function (response) {
-						          console.log(response.data);
-						          if (response.data == 'Valid') {
-						          	console.log('Its Valid');
-						          } else if (response.data == 'Invalid') {
-						          	this.showTop = true;
-						          	console.log('It is not Valid');
-						          }
-						      }, function (response) {
-						          // error callback
-						      });
+								
+								this.postInteraction(xLocation, yLocation, targetCharacter_id);
 							}
 						}
 
-					} else { // There is no selected Character
+					} else { // There is no currently selected Character
+						// Select clicked Character
 						this.characterSelected = true;
 						this.characterSelected_x = xLocation;
 						this.characterSelected_y = yLocation;
 						$('#' + cellID).addClass('selectedCell');
 
 						// inMovementRange calculation
-						var amountOfRows = 10;
-						var amountOfColumns = 10;
+						var amountOfRows = {{ $grid_rows }};
+						var amountOfColumns = {{ $grid_columns }};
 						for (var rowIndex = 1; rowIndex <= amountOfRows; rowIndex++) {
 							for (var columnIndex = 1; columnIndex <= amountOfColumns; columnIndex++) {
 								var distance = Math.abs(columnIndex - xLocation) + Math.abs(rowIndex - yLocation);
 								var speed = this.characterData[this.characterSelected_id]['data']['derivedstats']['speed'];
-								console.log('Evaluating position ('+columnIndex+', '+rowIndex+') against, speed: ' + speed + ' | distance: ' + distance);
+								// console.log('Evaluating position ('+columnIndex+', '+rowIndex+') against, speed: ' + speed + ' | distance: ' + distance);
 								if (speed >= distance) {
-									console.log('Evaluated: True');
+									// console.log('Evaluated: True');
 									var currentID = 'row' + rowIndex + '_col' + columnIndex;
 									if (currentID != cellID) {
 										$('#' + currentID).addClass('inMovementRange');
@@ -323,38 +250,65 @@
 					console.log('Occupied! characterSelected: ' + this.characterSelected + ' (' + this.characterSelected_x + ', ' +this.characterSelected_y + ')');
 				} else {
 					if (this.characterSelected) {
-						// Move cost calculation
-						var speed = this.characterData[this.characterSelected_id]['data']['derivedstats']['speed'];
-						var cost = Math.abs(this.characterSelected_x - xLocation) + Math.abs(this.characterSelected_y - yLocation);
-						if (cost > speed) {
-							console.log('Move exceeded speed. Cost: ' + cost);
-							// Display alert
-							this.showTop = true;
-						} else {
-							console.log('Move within cost limitation. Cost: ' + cost);
-							
-							renderAt('(' + xLocation + ', ' + yLocation + ')', this.characterData[this.characterSelected_id]['data']['icon']);
-							emptyCell('(' + this.characterSelected_x + ', ' + this.characterSelected_y + ')');
-
-							// Update location data
-							this.characterData[this.characterSelected_id]['locationX'] = xLocation;
-							this.characterData[this.characterSelected_id]['locationY'] = yLocation;
-							this.characterData[this.characterSelected_id]['hasMoved'] = true;
-
-							// The following is just temporary; the character will still need to be able to attack after moving
-							this.characterSelected = false;
-
-							removeInMovementRange();
-							this.charactersToMove--;
-							if (this.charactersToMove <= 0) {
-								this.charactersToMove = 0;
-								this.advanceTurn();
-							}
-						}
-						console.log('Moved');
+						this.moveSelectedCharacter(xLocation, yLocation);
 					}
-					console.log('Clear!');
+					console.log('Cell is unoccupied');
 				}
+			},
+			// Function will in future validate move server-side and redraw map to last known accepted values on validation failure
+			moveSelectedCharacter: function (xLocation, yLocation) {
+				// Move cost calculation
+				var speed = this.characterData[this.characterSelected_id]['data']['derivedstats']['speed'];
+				var cost = Math.abs(this.characterSelected_x - xLocation) + Math.abs(this.characterSelected_y - yLocation);
+				if (cost > speed) {
+					console.log('Move exceeded speed. Cost: ' + cost);
+					// Display alert
+					this.showAlert = true;
+				} else {
+					console.log('Move within cost limitation. Cost: ' + cost);
+					
+					renderAt('(' + xLocation + ', ' + yLocation + ')', this.characterData[this.characterSelected_id]['data']['icon']);
+					emptyCell('(' + this.characterSelected_x + ', ' + this.characterSelected_y + ')');
+
+					// Update location data
+					this.characterData[this.characterSelected_id]['locationX'] = xLocation;
+					this.characterData[this.characterSelected_id]['locationY'] = yLocation;
+					this.characterData[this.characterSelected_id]['hasMoved'] = true;
+
+					// The following is just temporary; the character will still need to be able to attack after moving
+					this.characterSelected = false;
+
+					removeInMovementRange();
+					this.charactersToMove--;
+					if (this.charactersToMove <= 0) {
+						this.charactersToMove = 0;
+						this.advanceTurn();
+					}
+				}
+			},
+			postInteraction: function (xLocation, yLocation, targetCharacter_id) {
+				var validation_data = {
+					'_token' : '{{ csrf_token() }}',
+					'attacker_id': this.characterSelected_id,
+					'attacker_pos_x' : this.characterSelected_x, 
+					'attacker_pos_y' : this.characterSelected_y,
+					'defender_id' : targetCharacter_id,
+					'defender_pos_x' : xLocation,
+					'defender_pos_y' : yLocation,
+					'type' : 'weapon' 
+				};
+
+				this.$http({url: '{{ url("battlemap/ajaxtest") }}', data: validation_data, method: 'GET'}).then(function (response) {
+					//console.log(response.data);
+					if (response.data == 'Valid') {
+						console.log('Valid Move');
+					} else if (response.data == 'Invalid') {
+						this.showAlert = true;
+						console.log('Move not Valid');
+					}
+				}, function (response) {
+					// error callback
+				});
 			},
 		}
 	});
