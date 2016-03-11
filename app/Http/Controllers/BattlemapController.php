@@ -90,7 +90,7 @@ class BattlemapController extends Controller
             $weaponRange = $attacker->equipmentslots->weapon->range;
             // return $attacker->name . ' is attacking ' . $defender->name . ' with a ' . $attacker->equipmentslots->weapon->name . ' (Range: '.$weaponRange.')';
 
-            if ($weaponRange > $distance)
+            if ($weaponRange >= $distance)
             {
                 return 'Valid';
             }
