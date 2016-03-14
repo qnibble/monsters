@@ -12,11 +12,6 @@ use App\Http\Controllers\Controller;
 
 class BattlemapController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         // Reset Activebattle data
@@ -30,7 +25,9 @@ class BattlemapController extends Controller
                 'character_id' => $character->id,
                 'last_x' => $character->id * 2,
                 'last_y' => $character->id + 5,
-                'current_hp' => $character->derivedstats->max_hp
+                'turn_number' => 1,
+                'current_hp' => $character->derivedstats->max_hp,
+                'has_moved' => false
             ]);
         }
 
@@ -39,7 +36,9 @@ class BattlemapController extends Controller
         for ($index = 1; $index <= 2; $index ++) { 
             $tempObject = [
                 'startLocation' => ['x' => $index * 2, 'y' => $index + 5],
-                'character' => Character::with('statistics', 'derivedstats', 'equipmentslots')->find($index)
+                'character' => Character::with('statistics', 'derivedstats', 'equipmentslots')->find($index),
+                'has_moved' => 0, 
+                'turn_number' => 1
             ];
 
             array_push($map_data, $tempObject);
@@ -50,34 +49,56 @@ class BattlemapController extends Controller
         return view('battlemap.index', compact('character_names', 'map_data'));
     }
 
+    /**
+    * @return 1 on valid moves, mapdata for redraw on invalid moves
+    */
     public function validateMove(Request $request)
     {
         $participant = Activebattle::where('character_id', $request->get('character_id'))->first();
-        $character_speed = Derivedstats::find($request->get('character_id'))->speed;
-
-        $move_from_x = $request->get('x_old');
-        $move_from_y = $request->get('y_old');
-        $move_to_x = $request->get('x_new');
-        $move_to_y = $request->get('y_new');
-
-        $distance = abs($move_from_x - $move_to_x) + abs($move_from_y - $move_to_y);
-
-        if ($distance > $character_speed) 
+        
+        if ($request->get('turn_number') == $participant->turn_number)
         {
-            // Invalid move; Return Mapdata and Redraw board state
-            return $this->getLastKnownGoodMapValues();
-        }
-        else 
-        {
-            $participant->update([
-                'last_x' => $move_to_x,
-                'last_y' => $move_to_y
-            ]);
+            if (!$participant->has_moved)
+            {
+                $character_speed = Derivedstats::find($request->get('character_id'))->speed;
 
-            return 'Valid Move';
+                $move_from_x = $request->get('x_old');
+                $move_from_y = $request->get('y_old');
+                $move_to_x = $request->get('x_new');
+                $move_to_y = $request->get('y_new');
+
+                $distance = abs($move_from_x - $move_to_x) + abs($move_from_y - $move_to_y);
+
+                if ($distance > $character_speed) 
+                {
+                    // Invalid move; Return Mapdata and Redraw board state
+                    return $this->getLastKnownGoodMapValues();
+                }
+                else 
+                {
+                    $participant->update([
+                        'last_x' => $move_to_x,
+                        'last_y' => $move_to_y,
+                        'has_moved' => true
+                    ]);
+
+                    // Check for remaining moves
+                    $participantsWithMoves = Activebattle::where('has_moved', 0)->get();
+
+                    if(count($participantsWithMoves) == 0) 
+                    {
+                        $this->advanceTurn();
+                    } 
+
+                    return 1;
+                }
+            }
         }
     }
 
+    /**
+    * @return 1 on valid actions, mapdata for redraw on invalid actions
+    */
     public function validateAction(Request $request)
     {
         $attacker = Character::with('equipmentslots')->find($request->get('attacker_id'));
@@ -92,7 +113,7 @@ class BattlemapController extends Controller
 
             if ($weaponRange >= $distance)
             {
-                return 'Valid';
+                return 1;
             }
             else
             {
@@ -116,7 +137,9 @@ class BattlemapController extends Controller
         {
             $tempObject = [
                 'startLocation' => ['x' => $participant->last_x, 'y' => $participant->last_y],
-                'character' => Character::with('statistics', 'derivedstats', 'equipmentslots')->find($participant->character_id)
+                'character' => Character::with('statistics', 'derivedstats', 'equipmentslots')->find($participant->character_id), 
+                'has_moved' => $participant->has_moved, 
+                'turn_number' => $participant->turn_number
             ];
 
             array_push($map_data, $tempObject);
@@ -125,69 +148,15 @@ class BattlemapController extends Controller
         return $map_data;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    protected function advanceTurn()
     {
-        //
-    }
+        $participants = Activebattle::all();
+        $turn_number = $participants[0]->turn_number; // Ugh
+        $turn_number++;
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+        foreach ($participants as $participant)
+        {
+            $participant->update(['has_moved' => false, 'turn_number' => $turn_number]);
+        }
     }
 }

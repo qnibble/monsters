@@ -112,7 +112,7 @@
 	    },
 		data: {
 			showAlert: false,
-			turnNumber: 1,
+			turnNumber: {!! isset($map_data[0]['turn_number']) ? $map_data[0]['turn_number'] : 1 !!},
 			charactersToMove: {{ count($map_data) }},
 			characterSelected: false,
 			characterSelected_id: 0,
@@ -182,8 +182,7 @@
 			  				this.characterSelected_id = charData['data']['id'] - 1;
 			  			} else {
 			  				var targetCharacter_id = charData['data']['id'] - 1;
-			  			}
-			  			
+			  			}	  			
 				  	}
 				}
 
@@ -272,7 +271,8 @@
 						'x_old': this.characterData[this.characterSelected_id]['locationX'], 
 						'x_new': xLocation, 
 						'y_old': this.characterData[this.characterSelected_id]['locationY'], 
-						'y_new': yLocation 
+						'y_new': yLocation,
+						'turn_number': this.turnNumber 
 					};
 
 					renderAt('(' + xLocation + ', ' + yLocation + ')', this.characterData[this.characterSelected_id]['data']['icon']);
@@ -295,10 +295,10 @@
 
 					this.$http({url: '{{ url("battlemap/validatemove") }}', data: validation_data, method: 'GET'}).then(function (response) {
 						//console.log(response.data);
-						if (response.data == 'Valid Move') {
-							console.log('Valid Move');
+						if (response.data == 1) {
+							// console.log('Valid Move');
+							// Do nothing
 						} else if (response.data == 'Invalid') {
-							// this.showAlert = true;
 							// console.log('Move not Valid');
 							// Still need to figure how to store turn number before I can continue with redraw (Which is actually quite simple)
 						}
