@@ -36,4 +36,6 @@ Route::resource('armour', 'ArmourController');
 
 Route::resource('weapon', 'WeaponController');
 
+Route::resource('mapdata', 'MapdataController');
+
 // Route::controller('')

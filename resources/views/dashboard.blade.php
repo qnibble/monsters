@@ -198,7 +198,33 @@
 					</div>
 					<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
 						<div class="panel-body">
-							<label>ToDo</label>
+							<table class="table">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th>Name</th>
+										<th># of Allies</th>
+										<th># of Enemies</th>
+										<th>Actions</th>
+									</tr>
+								</thead>
+								<tbody>
+									@foreach($maps as $map)
+										<tr>
+											<td>{{ $map->id }}</td>
+											<td>{{ $map->name }}</td>
+											<td>{{ count($map->ally_data) }}</td>
+											<td>{{ count($map->enemy_data) }}</td>
+											<td><button class="btn btn-info">View</button></td>
+										</tr>
+									@endforeach
+								</tbody>
+							</table>
+							<div class="panel-footer">
+								<div class="text-center">
+									<a href="{{ url('mapdata') }}" class="btn btn-primary">View All</a>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

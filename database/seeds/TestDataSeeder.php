@@ -5,6 +5,7 @@ use App\Character;
 use App\Effect;
 use App\Item;
 use App\Weapon;
+use App\Mapdata;
 use Illuminate\Database\Seeder;
 
 class TestDataSeeder extends Seeder
@@ -154,5 +155,40 @@ class TestDataSeeder extends Seeder
         ]);
 
         $character->friends()->attach($character2, ['value' => '250']);
+
+        /****************************************************************************************************************************/
+        /*                                      88        88      8888      888888    888888                                        */
+        /*                                      88 88  88 88     88  88     88   88  88                                             */
+        /*                                      88   88   88    88888888    88 888      88                                          */
+        /*                                      88        88   88      88   88             88                                       */
+        /*                                      88        88  88        88  88        888888                                        */
+        /****************************************************************************************************************************/
+        $enemy_data = [];
+        
+        $enemy = (object) array(
+            'character_id' => 2,
+            'x_loc' => 5,
+            'y_loc' => 1
+        );
+
+        array_push($enemy_data, $enemy);
+
+        $ally_data = [];
+
+        $ally = (object) array (
+            'character_id' => 1,
+            'x_loc' => 5,
+            'y_loc' => 10
+        );
+
+        array_push($ally_data, $ally);
+
+        $testingMap = Mapdata::create([
+            'name' => 'Test Map',
+            'number_cols' => 10,
+            'number_rows' => 10,
+            'enemy_data' => $enemy_data,
+            'ally_data' => $ally_data
+        ]);
     }
 }

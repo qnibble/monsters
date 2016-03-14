@@ -18,7 +18,12 @@ class Mapdata extends Model
      *
      * @var array
      */
-    protected $fillable = ['enemy_data'];
+    protected $fillable = ['name', 'number_cols', 'number_rows', 'enemy_data', 'ally_data'];
+
+    protected $casts = [
+        'enemy_data' => 'json',
+        'ally_data' => 'json',
+    ];
 
 
 	/**

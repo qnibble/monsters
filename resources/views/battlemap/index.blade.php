@@ -8,25 +8,7 @@
 		<div class="col-sm-9">
 		<table class="table-bordered">
 			<tbody>
-				<tr>
-					<th is="rowOne" row='1' column='1' occupied="false" v-ref="profile"></th>
-					<th is="rowOne" row='1' column='2' occupied="false"></th>
-					<th is="rowOne" row='1' column='3' occupied="false"></th>
-					<th is="rowOne" row='1' column='4' occupied="false"></th>
-					<th is="rowOne" row='1' column='5' occupied="false"></th>
-					<th is="rowOne" row='1' column='6' occupied="false"></th>
-					<th is="rowOne" row='1' column='7' occupied="false"></th>
-					<th is="rowOne" row='1' column='8' occupied="false"></th>
-					<th is="rowOne" row='1' column='9' occupied="false"></th>
-					<th is="rowOne" row='1' column='10' occupied="false"></th>
-				</tr>
-				<?php 
-					// Temporary 10x10 grid || Size to be passed by controller in the future
-					// Laravel blade's for will also be replaced by Vue's v-for
-					$grid_rows = 10; 
-					$grid_columns = 10;
-				?>
-				@for($rowIndex = 2; $rowIndex <= $grid_rows; $rowIndex++)
+				@for($rowIndex = 1; $rowIndex <= $grid_rows; $rowIndex++)
 					<tr>
 						@for($columnIndex = 1; $columnIndex <= $grid_columns; $columnIndex++)
 							{!! "<th id='row{$rowIndex}_col{$columnIndex}' class='battleTile' v-on:click='processClick'><label style='color:grey'>({$columnIndex}, {$rowIndex})</label></th>" !!}
@@ -134,19 +116,6 @@
 			// sidebar: VueStrap.aside,
 			// modal: VueStrap.modal,
 			alert: VueStrap.alert,
-			'rowOne': {
-				props: ['row', 'column', 'occupied'],
-		      	template: '<th v-on:click="toggleOccupied" class="battleTile" style="color:grey">(@{{ column }}, @{{ row }})</th>',
-		      	methods: {
-				    notify: function () {
-				    	console.log('(' + this.column + ', ' + this.row + ') ' + this.occupied)
-				    },
-				    toggleOccupied: function() {
-				    	this.occupied = !this.occupied,
-				    	console.log(this.occupied)
-				    },
-				  }
-		    }
 		},
 		methods: {
 			cellToConsole: function(e) {
@@ -168,22 +137,27 @@
 					var cellID = e.target.parentElement.id;
 				}
 				// Get location data
-				var yLocation = cellID.substring(3, 4);
-				var xLocation = cellID.substring(8, 9);
+				var endOfY = cellID.indexOf("_"); 
+				var endOfX = cellID.length; 
+				var yLocation = cellID.substring(3, endOfY);
+				var xLocation = cellID.substring(endOfY + 4, endOfX);
 				// console.log('e.target: ' + cellID + '. x:' + xLocation + '. y:' + yLocation);
 
 				// Check cell occupation
 				var isOccupied = false;
+				var charDataIndex = 0;
 				for (charData of this.characterData) {
 			  		if (yLocation == charData['locationY'] && xLocation == charData['locationX']) {
 		  				isOccupied = true;
 			  			
 			  			if(!this.characterSelected) {
-			  				this.characterSelected_id = charData['data']['id'] - 1;
+			  				this.characterSelected_id = charDataIndex;
+			  				console.log('character_id ('+ this.characterSelected_id + ') now selected')
 			  			} else {
-			  				var targetCharacter_id = charData['data']['id'] - 1;
+			  				var targetCharacter_id = charDataIndex;
 			  			}	  			
 				  	}
+				  	charDataIndex++;
 				}
 
 				// Where the magic happens
@@ -321,7 +295,7 @@
 
 				this.$http({url: '{{ url("battlemap/validateaction") }}', data: validation_data, method: 'GET'}).then(function (response) {
 					//console.log(response.data);
-					if (response.data == 'Valid') {
+					if (response.data == 1) {
 						console.log('Valid Move');
 					} else {
 						this.showAlert = true;
@@ -336,18 +310,24 @@
 	});
 
 	function emptyCell(location_string) {
-		var xLocation = location_string.substring(1, 2);
-		var yLocation = location_string.substring(4, 5);
+		var endOfX = location_string.indexOf(","); 
+		var endOfY = location_string.length; 
+
+		var xLocation = location_string.substring(1, endOfX);
+		var yLocation = location_string.substring(endOfX + 2, endOfY - 1);
 
 		var locationID = 'row' + yLocation + '_col' + xLocation;
 
-		$('#' + locationID).html('');
+		$('#' + locationID).html('<label style="color:grey">(' + xLocation + ', ' + yLocation +')</label>');
 		$('#' + locationID).removeClass('selectedCell');
 	}
 
 	function renderAt(location_string, icon_location) {
-		var xLocation = location_string.substring(1, 2);
-		var yLocation = location_string.substring(4, 5);
+		var endOfX = location_string.indexOf(","); 
+		var endOfY = location_string.length; 
+
+		var xLocation = location_string.substring(1, endOfX);
+		var yLocation = location_string.substring(endOfX + 2, endOfY - 1);
 
 		var locationID = 'row' + yLocation + '_col' + xLocation;
 

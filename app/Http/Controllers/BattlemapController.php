@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Activebattle;
 use App\Character;
 use App\Derivedstats;
+use App\Mapdata;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -17,26 +18,49 @@ class BattlemapController extends Controller
         // Reset Activebattle data
         Activebattle::truncate();
 
-        // For now we will make all characters participants:
-        // In the future: participants, starting locations, map size and terrain information should all be derived from mapdata table
-        $all_characters = Character::with('derivedstats')->get();
-        foreach ($all_characters as $character) {
+        // Load test map
+        $map = Mapdata::find(1);
+
+        // Load map dimensions
+        $grid_columns = $map->number_cols;
+        $grid_rows = $map->number_rows;
+
+        // Load enemies
+        foreach($map->enemy_data as $enemy)
+        {
+            $character = Character::with('derivedstats')->find($enemy['character_id']);
             Activebattle::create([
-                'character_id' => $character->id,
-                'last_x' => $character->id * 2,
-                'last_y' => $character->id + 5,
-                'turn_number' => 1,
+                'character_id' => $enemy['character_id'],
+                'last_x' => $enemy['x_loc'],
+                'last_y' => $enemy['y_loc'],
+                'turn_number' => 1, // Perhaps add a max turn number to mapdata?
                 'current_hp' => $character->derivedstats->max_hp,
                 'has_moved' => false
             ]);
         }
 
-        $map_data = [];
+        // Load allies
+        foreach($map->ally_data as $ally)
+        {
+            $character = Character::with('derivedstats')->find($ally['character_id']);
+            Activebattle::create([
+                'character_id' => $ally['character_id'],
+                'last_x' => $ally['x_loc'],
+                'last_y' => $ally['y_loc'],
+                'turn_number' => 1, // Perhaps add a max turn number to mapdata?
+                'current_hp' => $character->derivedstats->max_hp,
+                'has_moved' => false
+            ]);
+        }
 
-        for ($index = 1; $index <= 2; $index ++) { 
+        // Prepare mapdata from Activebattle
+        $map_data = [];
+        $all_participants = Activebattle::all();
+        foreach($all_participants as $participant)
+        {
             $tempObject = [
-                'startLocation' => ['x' => $index * 2, 'y' => $index + 5],
-                'character' => Character::with('statistics', 'derivedstats', 'equipmentslots')->find($index),
+                'startLocation' => ['x' => $participant->last_x, 'y' => $participant->last_y],
+                'character' => Character::with('statistics', 'derivedstats', 'equipmentslots')->find($participant->character_id),
                 'has_moved' => 0, 
                 'turn_number' => 1
             ];
@@ -46,7 +70,7 @@ class BattlemapController extends Controller
 
         $character_names = Character::lists('name', 'id')->toArray();
 
-        return view('battlemap.index', compact('character_names', 'map_data'));
+        return view('battlemap.index', compact('character_names', 'map_data', 'grid_columns', 'grid_rows'));
     }
 
     /**
