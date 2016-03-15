@@ -8,7 +8,7 @@
 				<div class="panel panel-primary">
 					<div class="panel-heading" role="tab" id="headingOne">
 						<h4 class="panel-title" data-toggle="collapse" data-parent="#accordionLeft" data-target="#abilitiesCollapse">
-								Abilities ({{ count($abilities) }})
+								Abilities ({{ $abilities_total }})
 							<span class="pull-right">
 								<a href="{{ url('ability/create') }}" class="btn btn-default" style="color:black">+ Add</a>
 							</span>
@@ -47,7 +47,7 @@
 				<div class="panel panel-primary">
 					<div class="panel-heading" role="tab" id="headingTwo">
 						<h4 class="panel-title" data-toggle="collapse" data-parent="#accordionLeft" data-target="#armoursCollapse">
-							Armours ({{ count($armours) }})
+							Armours ({{ $armours_total }})
 							<span class="pull-right">
 								<a href="{{ url('armour/create') }}" class="btn btn-default btn-xs" style="color:black">+ Add</a>
 							</span>
@@ -86,7 +86,7 @@
 				<div class="panel panel-primary">
 					<div class="panel-heading" role="tab" id="headingThree">
 						<h4 class="panel-title" data-toggle="collapse" data-parent="#accordionLeft" data-target="#weaponsCollapse">
-							Weapons ({{ count($weapons) }})
+							Weapons ({{ $weapons_total }})
 							<span class="pull-right">
 								<a href="{{ url('weapon/create') }}" class="btn btn-default btn-xs" style="color:black">+ Add</a>
 							</span>
@@ -128,7 +128,7 @@
 				<div class="panel panel-primary">
 					<div class="panel-heading" role="tab" id="headingOne">
 						<h4 class="panel-title" data-toggle="collapse" data-parent="#accordionRight" data-target="#collapseOne">
-								Characters ({{ count($characters) }})
+								Characters ({{ $characters_total }})
 							<span class="pull-right">
 								<a href="{{ url('ability/create') }}" class="btn btn-default btn-xs" style="color:black">+ Add</a>
 							</span>
@@ -193,7 +193,7 @@
 				<div class="panel panel-primary">
 					<div class="panel-heading" role="tab" id="headingTwo">
 						<h4 class="panel-title" data-toggle="collapse" data-parent="#accordionRight" data-target="#collapseTwo">
-							Maps ({{ count($maps) }})
+							Maps ({{ $maps_total }})
 						</h4>
 					</div>
 					<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
@@ -231,7 +231,7 @@
 				<div class="panel panel-primary">
 					<div class="panel-heading" role="tab" id="headingThree">
 						<h4 class="panel-title" data-toggle="collapse" data-parent="#accordionRight" data-target="#collapseThree">
-							Items ({{ count($items) }})
+							Items ({{ $items_total }})
 						</h4>
 					</div>
 					<div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">

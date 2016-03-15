@@ -36,7 +36,18 @@ class AdminController extends Controller
         $armours = Armour::paginate(5);
         $weapons = Weapon::paginate(5);
 
-        return view('dashboard', compact('characters', 'effects', 'effect_names', 'items', 'maps', 'abilities', 'armours', 'weapons'));
+        // Collection Totals
+        $characters_total = Character::count();
+        $effects_total = Effect::count();
+        $items_total = Item::count();
+        $maps_total = Mapdata::count();
+        $abilities_total = Ability::count();
+        $armours_total = Armour::count();
+        $weapons_total = Weapon::count();
+
+        return view('dashboard', compact(   'characters', 'effects', 'effect_names', 'items', 'maps', 'abilities', 'armours', 'weapons',
+                                            'characters_total', 'effects_total', 'items_total', 'maps_total', 'abilities_total', 'armours_total', 
+                                            'weapons_total');
     }
 
     /**
