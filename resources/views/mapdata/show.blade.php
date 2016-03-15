@@ -12,7 +12,7 @@
 						@include('mapdata._form')
 					</div>
 
-					<div class="text-center">
+					<div class="panel-footer text-right">
 						<button type="submit" class="btn btn-primary">Save</button>
 					</div>
 				{!! Form::close() !!}

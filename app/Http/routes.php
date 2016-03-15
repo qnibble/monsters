@@ -22,20 +22,20 @@ Route::get('battlemap', 'BattlemapController@index');
 Route::get('battlemap/validatemove', 'BattlemapController@validateMove');
 Route::get('battlemap/validateaction', 'BattlemapController@validateAction');
 
-Route::resource('effects', 'EffectController');
+Route::resource('effects', 'EffectController', ['except' => 'edit']);
 
-Route::resource('items', 'ItemController');
+Route::resource('items', 'ItemController', ['except' => 'edit']);
 
 Route::any('character/data', ['as' => 'character.data', 'uses' => 'CharacterController@anyData']);
 
-Route::resource('character', 'CharacterController');
+Route::resource('character', 'CharacterController', ['except' => 'edit']);
 
-Route::resource('ability', 'AbilityController');
+Route::resource('ability', 'AbilityController', ['except' => 'edit']);
 
-Route::resource('armour', 'ArmourController');
+Route::resource('armour', 'ArmourController', ['except' => 'edit']);
 
-Route::resource('weapon', 'WeaponController');
+Route::resource('weapon', 'WeaponController', ['except' => 'edit']);
 
-Route::resource('mapdata', 'MapdataController');
+Route::resource('mapdata', 'MapdataController', ['except' => 'edit']);
 
 // Route::controller('')

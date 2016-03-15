@@ -120,7 +120,48 @@ class MapdataController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $allies = [];
+        $enemies = [];
+        $map = Mapdata::find($id);
+
+        $allyCharacterIDs = $request->get('ally_character_id');
+        $allyCharacterXs = $request->get('ally_character_start_x');
+        $allyCharacterYs = $request->get('ally_character_start_y');
+        $enemyCharacterIDs = $request->get('enemy_character_id');
+        $enemyCharacterXs = $request->get('enemy_character_start_x');
+        $enemyCharacterYs = $request->get('enemy_character_start_y');
+
+        for ($index = 0; $index < count($request->get('ally_character_id')); $index++)
+        {
+            $ally = (object) array(
+                'character_id' => $allyCharacterIDs[$index],
+                'x_loc' => $allyCharacterXs[$index],
+                'y_loc' => $allyCharacterYs[$index]
+            );
+
+            array_push($allies, $ally);
+        }
+
+        for ($index = 0; $index < count($request->get('enemy_character_id')); $index++)
+        {
+            $enemy = (object) array(
+                'character_id' => $enemyCharacterIDs[$index],
+                'x_loc' => $enemyCharacterXs[$index],
+                'y_loc' => $enemyCharacterYs[$index]
+            );
+
+            array_push($enemies, $enemy);
+        }
+
+        $map->update([
+            'name' => $request->get('name'),
+            'number_cols' => $request->get('number_cols'),
+            'number_rows' => $request->get('number_rows'),
+            'enemy_data' => $enemies,
+            'ally_data' => $allies
+        ]);
+
+        return redirect()->back();
     }
 
     /**
