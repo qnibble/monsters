@@ -47,7 +47,7 @@ class AdminController extends Controller
 
         return view('dashboard', compact(   'characters', 'effects', 'effect_names', 'items', 'maps', 'abilities', 'armours', 'weapons',
                                             'characters_total', 'effects_total', 'items_total', 'maps_total', 'abilities_total', 'armours_total', 
-                                            'weapons_total');
+                                            'weapons_total'));
     }
 
     /**
