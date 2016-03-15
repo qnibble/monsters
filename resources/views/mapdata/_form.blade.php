@@ -41,7 +41,7 @@
 						<div class="form-group">
 							{!! ($allyRowIndex == 0) ? Form::label('Character') : null !!}
 							{!! Form::select('ally_character_id[]', $character_names, $ally['character_id'], ['class' => 'form-control']) !!}
-							{!! ($allyRowIndex == 0) ? null : "<a class='btn btn-danger btn-xs' href='javascript:void(0);' onclick='removeRow(\"#ally_{$allyRowIndex}\")'>X</a>" !!}
+							{!! ($allyRowIndex == 0) ? null : "<a class='btn btn-danger btn-xs btn-close' href='javascript:void(0);' onclick='removeRow(\"#ally_{$allyRowIndex}\")'>&times;</a>" !!}
 						</div>
 					</div>
 					<div class="col-sm-6">
@@ -123,7 +123,7 @@
 						<div class="form-group">
 							{!! ($enemyRowIndex == 0) ? Form::label('Character') : null !!}
 							{!! Form::select('enemy_character_id[]', $character_names, $enemy['character_id'], ['class' => 'form-control']) !!}
-							{!! ($enemyRowIndex == 0) ? null : "<a class='btn btn-danger btn-xs' href='javascript:void(0);' onclick='removeRow(\"#enemy_{$enemyRowIndex}\")'>X</a>" !!}
+							{!! ($enemyRowIndex == 0) ? null : "<a class='btn btn-danger btn-xs btn-close' href='javascript:void(0);' onclick='removeRow(\"#enemy_{$enemyRowIndex}\")'>&times;</a>" !!}
 						</div>
 					</div>
 					<div class="col-sm-6">
@@ -194,6 +194,20 @@
 	</div>
 </div>
 
+@section('styles')
+@parent
+	<style type="text/css">
+		.form-group {
+			position: relative;
+		}
+		.btn-close {
+			position: absolute;
+			left: -10px;
+			top: 5px;
+		}
+	</style>
+@stop
+
 @section('scripts')
 @parent
 	<script type="text/javascript">
@@ -219,7 +233,7 @@
 	            	'<div class="col-sm-6">' +
 					'<div class="form-group">' +
 						'<select name="ally_character_id[]" class="form-control"><?php foreach ($character_names as $key => $value) { echo '<option value="'.$key.'">'.$value.'</option>'; } ?></select>' +
-						'<a class="btn btn-danger btn-xs" href="javascript:void(0);" onclick="removeRow('+ "'#ally_" + allyIndex + "'"+')">X</a>' +
+						'<a class="btn btn-danger btn-xs btn-close" href="javascript:void(0);" onclick="removeRow('+ "'#ally_" + allyIndex + "'"+')">&times;</a>' +
 					'</div>' +
 				'</div>' +
 				'<div class="col-sm-6">' +
@@ -249,7 +263,7 @@
 	            	'<div class="col-sm-6">' +
 					'<div class="form-group">' +
 						'<select name="enemy_character_id[]" class="form-control"><?php foreach ($character_names as $key => $value) { echo '<option value="'.$key.'">'.$value.'</option>'; } ?></select>' +
-						'<a class="btn btn-danger btn-xs" href="javascript:void(0);" onclick="removeRow('+ "'#enemy_" + enemyIndex + "'"+')">X</a>' +
+						'<a class="btn btn-danger btn-xs btn-close" href="javascript:void(0);" onclick="removeRow('+ "'#enemy_" + enemyIndex + "'"+')">&times;</a>' +
 					'</div>' +
 				'</div>' +
 				'<div class="col-sm-6">' +
