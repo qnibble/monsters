@@ -33,4 +33,5 @@ class CreateActivebattleTable extends Migration
     public function down()
     {
         Schema::drop('activebattle');
-    }}
+    }
+}

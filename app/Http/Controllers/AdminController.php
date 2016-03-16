@@ -31,7 +31,7 @@ class AdminController extends Controller
         $effects = Effect::paginate(5);
         $effect_names = Effect::lists('name', 'id')->toArray();
         $items = Item::paginate(5);
-        $maps = Mapdata::paginate(5);
+        $maps = Mapdata::with(['allies', 'enemies'])->paginate(5);
         $abilities = Ability::paginate(5);
         $armours = Armour::paginate(5);
         $weapons = Weapon::paginate(5);

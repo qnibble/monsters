@@ -22,7 +22,7 @@ class Character extends Model
     	'name',
         'biography',
         'icon',
-		'class',
+		'class_id',
         'starting_lvl',
         'current_lvl',
         'experience',
@@ -58,5 +58,10 @@ class Character extends Model
     public function equipmentslots()
     {
         return $this->hasOne('App\\EquipmentSlot');
+    }
+
+    public function unitclass()
+    {
+        return $this->belongsTo(Unitclass::class, 'class_id');
     }
 }

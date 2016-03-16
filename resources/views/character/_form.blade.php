@@ -36,14 +36,30 @@
 				</thead>
 				<tbody>
 					<tr>
+						<td>Class</td>
+						<td>
+							<label
+								data-toggle="tooltip" 
+								data-placement="bottom" 
+								title="{{ $character->unitclass->description }}">
+								{{ $character->unitclass->name }}
+							</label>
+						</td>
 						<td>Starting Level</td>
-						<td colspan="3">{{ isset($character) ?  $character->starting_lvl : null }}</td>
+						<td>{{ isset($character) ?  $character->starting_lvl : null }}</td>
 					</tr>
 					<tr>
 						<td>Current Level</td>
 						<td>{{ isset($character) ?  $character->current_lvl : null }}</td>
 						<td>Experience</td>
-						<td>{{ isset($character) ?  $character->experience : null }}</td>
+						<td>
+							<label
+								data-toggle="tooltip" 
+								data-placement="bottom" 
+								title="{{ $character->unitclass->name }}:<br><?php foreach($character->unitclass->level_data as $required): echo $required . ', '; endforeach; ?>">
+								{{ isset($character) ?  $character->experience : null }}
+							</label>
+						</td>
 					</tr>
 				</tbody>
 			</table>
@@ -59,7 +75,11 @@
 						<tr>
 							<td>Strength</td>
 							<td>
-								<label data-toggle="tooltip" data-placement="right" title="{{ 'Base: ' . $character->statistics->strength_base . '<br> + <br>Mod: ' . $character->statistics->strength_mod }}">
+								<label 
+									<?php if($character->statistics->strength_mod > 0) { echo 'style="color:green"'; }?> 
+									data-toggle="tooltip" 
+									data-placement="right" 
+									title="{{ 'Base: ' . $character->statistics->strength_base . '<br> + <br>Mod: ' . $character->statistics->strength_mod }}">
 										{{ $character->statistics->strength_base + $character->statistics->strength_mod }}
 								</label>
 							</td>
@@ -67,7 +87,11 @@
 						<tr>
 							<td>Dexterity</td>
 							<td>
-								<label data-toggle="tooltip" data-placement="right" title="{{ $character->statistics->dexterity_base . ' + ' . $character->statistics->dexterity_mod }}">
+								<label 
+									<?php if($character->statistics->dexterity_mod > 0) { echo 'style="color:green"'; }?> 
+									data-toggle="tooltip" 
+									data-placement="right" 
+									title="{{ $character->statistics->dexterity_base . ' + ' . $character->statistics->dexterity_mod }}">
 										{{ $character->statistics->dexterity_base + $character->statistics->dexterity_mod }}
 								</label>
 							</td>
@@ -75,7 +99,11 @@
 						<tr>
 							<td>Constitution</td>
 							<td>
-								<label data-toggle="tooltip" data-placement="right" title="{{ $character->statistics->constitution_base . ' + ' . $character->statistics->constitution_mod }}">
+								<label 
+									<?php if($character->statistics->constitution_mod > 0) { echo 'style="color:green"'; }?> 
+									data-toggle="tooltip" 
+									data-placement="right" 
+									title="{{ $character->statistics->constitution_base . ' + ' . $character->statistics->constitution_mod }}">
 										{{ $character->statistics->constitution_base + $character->statistics->constitution_mod }}
 								</label>
 							</td>
@@ -83,10 +111,38 @@
 						<tr>
 							<td>Intellegence</td>
 							<td>
-								<label data-toggle="tooltip" data-placement="right" title="{{ $character->statistics->intellegence_base . ' + ' . $character->statistics->intellegence_mod }}">
+								<label 
+									<?php if($character->statistics->intellegence_mod > 0) { echo 'style="color:green"'; }?> 
+									data-toggle="tooltip" 
+									data-placement="right" 
+									title="{{ $character->statistics->intellegence_base . ' + ' . $character->statistics->intellegence_mod }}">
 										{{ $character->statistics->intellegence_base + $character->statistics->intellegence_mod }}
 								</label>
 							</td>
+						</tr>
+					</tbody>	
+				</table>
+			@endif
+
+			@if(isset($character))
+				<table class="table">
+					<thead>
+						<tr>
+							<th colspan="2">Derived Statistics</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Max HP</td>
+							<td>{{ $character->derivedstats->max_hp }}</td>
+						</tr>
+						<tr>
+							<td>Total Defense</td>
+							<td>{{ $character->derivedstats->total_defense }}</td>
+						</tr>
+						<tr>
+							<td>Speed</td>
+							<td>{{ $character->derivedstats->speed }}</td>
 						</tr>
 					</tbody>	
 				</table>

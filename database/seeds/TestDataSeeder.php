@@ -4,6 +4,7 @@ use App\Armour;
 use App\Character;
 use App\Effect;
 use App\Item;
+use App\Unitclass;
 use App\Weapon;
 use App\Mapdata;
 use Illuminate\Database\Seeder;
@@ -77,6 +78,26 @@ class TestDataSeeder extends Seeder
         ]);
 
         /****************************************************************************************************************************/
+        /*                        88888888  88              8888       888888    888888   888888888   888888                        */
+        /*                      88          88             88  88     88        88        88         88                             */
+        /*                     88           88            88888888       88        88     8888          88                          */
+        /*                      88          88           88      88         88        88  88               88                       */
+        /*                        88888888  8888888888  88        88   888888    888888   888888888   888888                        */
+        /****************************************************************************************************************************/
+
+        $bruiser = Unitclass::create([
+            'name' => 'Bruiser',
+            'description' => 'HP tank with strong melee capabilities',
+            'level_data' => [0, 15, 30]
+        ]);
+
+        $valkyrie = Unitclass::create([
+            'name' => 'Valkyrie',
+            'description' => 'Armour based mid-ranged fighter with death magic',
+            'level_data' => [0, 15, 30]
+        ]);
+
+        /****************************************************************************************************************************/
         /*      88888888  88    88      8888      888888        8888       88888888  88888888  88888888  888888     888888          */
         /*    88          88    88     88  88     88   88      88  88    88             88     88        88   88   88               */
         /*   88           88888888    88888888    888888      88888888  88              88     8888      888888       88            */
@@ -88,7 +109,7 @@ class TestDataSeeder extends Seeder
     			'name' => 'Vallis Obscuris', 
                 'biography' => 'Their life story',
                 'icon' => 'img/blue.png',
-    			'class' => 'Bruiser',
+    			'class_id' => $bruiser->id,
                 'starting_lvl' => '1',
                 'current_lvl' => '1',
                 'experience' => '0'
@@ -123,7 +144,7 @@ class TestDataSeeder extends Seeder
                 'name' => 'Valencia Oberstrauss', 
                 'biography' => 'Their life story',
                 'icon' => 'img/red.png',
-                'class' => 'Valkyrie',
+                'class_id' => $valkyrie->id,
                 'starting_lvl' => '1',
                 'current_lvl' => '1',
                 'experience' => '0'

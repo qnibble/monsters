@@ -16,6 +16,7 @@
 				<tr>
 					<th>ID</th>
 					<th>Name</th>
+					<th>Class</th>
 					<th>Strength</th>
 					<th>Dexterity</th>
 					<th>Constitution</th>
@@ -33,22 +34,41 @@
 							</label>
 						</td>
 						<td>
-							<label data-toggle="tooltip" data-placement="bottom" title="{{ 'Base: ' . $character->statistics->strength_base . '<br> + <br>Mod: ' . $character->statistics->strength_mod }}">
+							<label>{{ $character->unitclass->name }}</label>
+						</td>
+						<td>
+							<label 
+								<?php if($character->statistics->strength_mod > 0) { echo 'style="color:green"'; }?>
+								data-toggle="tooltip" 
+								data-placement="bottom" 
+								title="{{ 'Base: ' . $character->statistics->strength_base . '<br> + <br>Mod: ' . $character->statistics->strength_mod }}">
 								{{ $character->statistics->strength_base + $character->statistics->strength_mod }}
 							</label>
 						</td>
 						<td>
-							<label data-toggle="tooltip" data-placement="bottom" title="{{ $character->statistics->dexterity_base . ' + ' . $character->statistics->dexterity_mod }}">
+							<label 
+								<?php if($character->statistics->dexterity_mod > 0) { echo 'style="color:green"'; }?>
+								data-toggle="tooltip" 
+								data-placement="bottom" 
+								title="{{ $character->statistics->dexterity_base . ' + ' . $character->statistics->dexterity_mod }}">
 								{{ $character->statistics->dexterity_base + $character->statistics->dexterity_mod }}
 							</label>
 						</td>
 						<td>
-							<label data-toggle="tooltip" data-placement="bottom" title="{{ $character->statistics->constitution_base . ' + ' . $character->statistics->constitution_mod }}">
+							<label 
+								<?php if($character->statistics->constitution_mod > 0) { echo 'style="color:green"'; }?>
+								data-toggle="tooltip" 
+								data-placement="bottom" 
+								title="{{ $character->statistics->constitution_base . ' + ' . $character->statistics->constitution_mod }}">
 								{{ $character->statistics->constitution_base + $character->statistics->constitution_mod }}
 							</label>
 						</td>
 						<td>
-							<label data-toggle="tooltip" data-placement="bottom" title="{{ $character->statistics->intellegence_base . ' + ' . $character->statistics->intellegence_mod }}">
+							<label 
+								<?php if($character->statistics->intellegence_mod > 0) { echo 'style="color:green"'; }?>
+								data-toggle="tooltip" 
+								data-placement="bottom" 
+								title="{{ $character->statistics->intellegence_base . ' + ' . $character->statistics->intellegence_mod }}">
 								{{ $character->statistics->intellegence_base + $character->statistics->intellegence_mod }}
 							</label>
 						</td>
