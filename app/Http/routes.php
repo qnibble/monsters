@@ -18,6 +18,7 @@
 Route::get('/', 'AdminController@Index');
 
 Route::get('battlemap', 'BattlemapController@index');
+Route::post('battlemap', 'BattlemapController@showMap');
 // Route::get('battlemap/ajaxtest', 'BattlemapController@returnAjax');
 Route::get('battlemap/validatemove', 'BattlemapController@validateMove');
 Route::get('battlemap/validateaction', 'BattlemapController@validateAction');

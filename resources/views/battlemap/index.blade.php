@@ -3,6 +3,10 @@
 @section('content')
 <div id="boardScope">
 	<label>Turn #@{{ turnNumber }} Character Moves: @{{ charactersToMove }}</label>
+	<button class="btn btn-primary"
+	  @click="mapSwitchModal = true">
+	  Switch Map
+	</button>
 
 	<div class="row">
 		<div class="col-sm-9">
@@ -76,6 +80,23 @@
 	  <!-- p>The selected character cannot move that far.</p -->
 	</alert>
 
+	{!! Form::open(['url' => url('battlemap')]) !!}
+	<modal :show.sync="mapSwitchModal" effect="fade" width="400">
+	  <div slot="modal-header" class="modal-header">
+	    <h4 class="modal-title">
+	      <i><b>Select Map</b></i>
+	    </h4>
+	  </div>
+	  <div slot="modal-body" class="modal-body">
+	  	{!! Form::select('map_id', $map_list, null, ['class' => 'form-control']) !!}
+	  </div>
+	  <div slot="modal-footer" class="modal-footer">
+	    <button type="button" class="btn btn-default" @click='mapSwitchModal = false'>Cancel</button>
+	    <button type="submit" class="btn btn-success" @click='mapSwitchModal = false'>Load</button>
+	  </div>
+	</modal>
+	{!! Form::close() !!}
+
 	<div v-for="character in characterData">
 		<label>@{{ character.data['name'] }} @ (@{{ character.locationX }}, @{{ character.locationY }})</label>
 	</div>
@@ -94,6 +115,7 @@
 	    },
 		data: {
 			showAlert: false,
+			mapSwitchModal: false,
 			turnNumber: {!! isset($map_data[0]['turn_number']) ? $map_data[0]['turn_number'] : 1 !!},
 			charactersToMove: {{ count($map_data) }},
 			characterSelected: false,
@@ -114,7 +136,7 @@
 		},
 		components: {
 			// sidebar: VueStrap.aside,
-			// modal: VueStrap.modal,
+			modal: VueStrap.modal,
 			alert: VueStrap.alert,
 		},
 		methods: {
