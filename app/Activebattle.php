@@ -22,12 +22,14 @@ class Activebattle extends Model
     	'character_id',
         'last_x',
         'last_y',
-		'current_hp'
+        'turn_number',
+		'current_hp',
+        'has_moved' 
     ];
 
-    // protected $casts = [
-    //     'hasAbilities' => 'json',
-    // ];
+    protected $casts = [
+        'has_moved' => 'boolean',
+    ];
 
 
     /**

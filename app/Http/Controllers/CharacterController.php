@@ -28,7 +28,7 @@ class CharacterController extends Controller
      */
     public function index()
     {
-        $characters = Character::with(['statistics', 'equipmentslots', 'friends'])->get();
+        $characters = Character::with(['statistics', 'unitclass', 'equipmentslots', 'friends'])->get();
 
         return view('character.index', compact('characters'));
     }
@@ -64,7 +64,7 @@ class CharacterController extends Controller
      */
     public function show($id)
     {
-        $character = Character::with(['statistics', 'equipmentslots'])->find($id);
+        $character = Character::with(['statistics', 'derivedstats', 'unitclass', 'equipmentslots'])->find($id);
 
         return view('character.show', compact('character'));
     }

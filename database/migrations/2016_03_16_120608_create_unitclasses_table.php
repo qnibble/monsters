@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateMapdataTable extends Migration
+class CreateUnitclassesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -12,13 +12,11 @@ class CreateMapdataTable extends Migration
      */
     public function up()
     {
-        Schema::create('mapdata', function (Blueprint $table) {
+        Schema::create('unitclasses', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
-            $table->integer('number_cols')->unsigned();
-            $table->integer('number_rows')->unsigned();
-            $table->longText('enemy_data'); // JSON of Enemies (by Character ID, Map location)
-            $table->longText('ally_data'); // JSON of Allies (by Character ID, Map location)
+            $table->text('description');
+            $table->longText('level_data'); 
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateMapdataTable extends Migration
      */
     public function down()
     {
-        Schema::drop('mapdata');
+        Schema::drop('unitclasses');
     }
 }

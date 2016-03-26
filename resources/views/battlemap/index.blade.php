@@ -3,30 +3,16 @@
 @section('content')
 <div id="boardScope">
 	<label>Turn #@{{ turnNumber }} Character Moves: @{{ charactersToMove }}</label>
+	<button class="btn btn-primary"
+	  @click="mapSwitchModal = true">
+	  Switch Map
+	</button>
 
 	<div class="row">
 		<div class="col-sm-9">
 		<table class="table-bordered">
 			<tbody>
-				<tr>
-					<th is="rowOne" row='1' column='1' occupied="false" v-ref="profile"></th>
-					<th is="rowOne" row='1' column='2' occupied="false"></th>
-					<th is="rowOne" row='1' column='3' occupied="false"></th>
-					<th is="rowOne" row='1' column='4' occupied="false"></th>
-					<th is="rowOne" row='1' column='5' occupied="false"></th>
-					<th is="rowOne" row='1' column='6' occupied="false"></th>
-					<th is="rowOne" row='1' column='7' occupied="false"></th>
-					<th is="rowOne" row='1' column='8' occupied="false"></th>
-					<th is="rowOne" row='1' column='9' occupied="false"></th>
-					<th is="rowOne" row='1' column='10' occupied="false"></th>
-				</tr>
-				<?php 
-					// Temporary 10x10 grid || Size to be passed by controller in the future
-					// Laravel blade's for will also be replaced by Vue's v-for
-					$grid_rows = 10; 
-					$grid_columns = 10;
-				?>
-				@for($rowIndex = 2; $rowIndex <= $grid_rows; $rowIndex++)
+				@for($rowIndex = 1; $rowIndex <= $grid_rows; $rowIndex++)
 					<tr>
 						@for($columnIndex = 1; $columnIndex <= $grid_columns; $columnIndex++)
 							{!! "<th id='row{$rowIndex}_col{$columnIndex}' class='battleTile' v-on:click='processClick'><label style='color:grey'>({$columnIndex}, {$rowIndex})</label></th>" !!}
@@ -94,6 +80,23 @@
 	  <!-- p>The selected character cannot move that far.</p -->
 	</alert>
 
+	{!! Form::open(['url' => url('battlemap')]) !!}
+	<modal :show.sync="mapSwitchModal" effect="fade" width="400">
+	  <div slot="modal-header" class="modal-header">
+	    <h4 class="modal-title">
+	      <i><b>Select Map</b></i>
+	    </h4>
+	  </div>
+	  <div slot="modal-body" class="modal-body">
+	  	{!! Form::select('map_id', $map_list, null, ['class' => 'form-control']) !!}
+	  </div>
+	  <div slot="modal-footer" class="modal-footer">
+	    <button type="button" class="btn btn-default" @click='mapSwitchModal = false'>Cancel</button>
+	    <button type="submit" class="btn btn-success" @click='mapSwitchModal = false'>Load</button>
+	  </div>
+	</modal>
+	{!! Form::close() !!}
+
 	<div v-for="character in characterData">
 		<label>@{{ character.data['name'] }} @ (@{{ character.locationX }}, @{{ character.locationY }})</label>
 	</div>
@@ -112,7 +115,8 @@
 	    },
 		data: {
 			showAlert: false,
-			turnNumber: 1,
+			mapSwitchModal: false,
+			turnNumber: {!! isset($map_data[0]['turn_number']) ? $map_data[0]['turn_number'] : 1 !!},
 			charactersToMove: {{ count($map_data) }},
 			characterSelected: false,
 			characterSelected_id: 0,
@@ -132,21 +136,8 @@
 		},
 		components: {
 			// sidebar: VueStrap.aside,
-			// modal: VueStrap.modal,
+			modal: VueStrap.modal,
 			alert: VueStrap.alert,
-			'rowOne': {
-				props: ['row', 'column', 'occupied'],
-		      	template: '<th v-on:click="toggleOccupied" class="battleTile" style="color:grey">(@{{ column }}, @{{ row }})</th>',
-		      	methods: {
-				    notify: function () {
-				    	console.log('(' + this.column + ', ' + this.row + ') ' + this.occupied)
-				    },
-				    toggleOccupied: function() {
-				    	this.occupied = !this.occupied,
-				    	console.log(this.occupied)
-				    },
-				  }
-		    }
 		},
 		methods: {
 			cellToConsole: function(e) {
@@ -168,23 +159,27 @@
 					var cellID = e.target.parentElement.id;
 				}
 				// Get location data
-				var yLocation = cellID.substring(3, 4);
-				var xLocation = cellID.substring(8, 9);
+				var endOfY = cellID.indexOf("_"); 
+				var endOfX = cellID.length; 
+				var yLocation = cellID.substring(3, endOfY);
+				var xLocation = cellID.substring(endOfY + 4, endOfX);
 				// console.log('e.target: ' + cellID + '. x:' + xLocation + '. y:' + yLocation);
 
 				// Check cell occupation
 				var isOccupied = false;
+				var charDataIndex = 0;
 				for (charData of this.characterData) {
 			  		if (yLocation == charData['locationY'] && xLocation == charData['locationX']) {
 		  				isOccupied = true;
 			  			
 			  			if(!this.characterSelected) {
-			  				this.characterSelected_id = charData['data']['id'] - 1;
+			  				this.characterSelected_id = charDataIndex;
+			  				console.log('character_id ('+ this.characterSelected_id + ') now selected')
 			  			} else {
-			  				var targetCharacter_id = charData['data']['id'] - 1;
-			  			}
-			  			
+			  				var targetCharacter_id = charDataIndex;
+			  			}	  			
 				  	}
+				  	charDataIndex++;
 				}
 
 				// Where the magic happens
@@ -255,7 +250,6 @@
 					console.log('Cell is unoccupied');
 				}
 			},
-			// Function will in future validate move server-side and redraw map to last known accepted values on validation failure
 			moveSelectedCharacter: function (xLocation, yLocation) {
 				// Move cost calculation
 				var speed = this.characterData[this.characterSelected_id]['data']['derivedstats']['speed'];
@@ -267,6 +261,16 @@
 				} else {
 					console.log('Move within cost limitation. Cost: ' + cost);
 					
+					var validation_data = {
+						'_token' : '{{ csrf_token() }}',
+						'character_id': this.characterSelected_id + 1,
+						'x_old': this.characterData[this.characterSelected_id]['locationX'], 
+						'x_new': xLocation, 
+						'y_old': this.characterData[this.characterSelected_id]['locationY'], 
+						'y_new': yLocation,
+						'turn_number': this.turnNumber 
+					};
+
 					renderAt('(' + xLocation + ', ' + yLocation + ')', this.characterData[this.characterSelected_id]['data']['icon']);
 					emptyCell('(' + this.characterSelected_x + ', ' + this.characterSelected_y + ')');
 
@@ -284,27 +288,41 @@
 						this.charactersToMove = 0;
 						this.advanceTurn();
 					}
+
+					this.$http({url: '{{ url("battlemap/validatemove") }}', data: validation_data, method: 'GET'}).then(function (response) {
+						//console.log(response.data);
+						if (response.data == 1) {
+							// console.log('Valid Move');
+							// Do nothing
+						} else if (response.data == 'Invalid') {
+							// console.log('Move not Valid');
+							// Still need to figure how to store turn number before I can continue with redraw (Which is actually quite simple)
+						}
+					}, function (response) {
+						// error callback
+					});
 				}
 			},
 			postInteraction: function (xLocation, yLocation, targetCharacter_id) {
 				var validation_data = {
 					'_token' : '{{ csrf_token() }}',
-					'attacker_id': this.characterSelected_id,
+					'attacker_id': this.characterSelected_id + 1,
 					'attacker_pos_x' : this.characterSelected_x, 
 					'attacker_pos_y' : this.characterSelected_y,
-					'defender_id' : targetCharacter_id,
+					'defender_id' : targetCharacter_id + 1,
 					'defender_pos_x' : xLocation,
 					'defender_pos_y' : yLocation,
 					'type' : 'weapon' 
 				};
 
-				this.$http({url: '{{ url("battlemap/ajaxtest") }}', data: validation_data, method: 'GET'}).then(function (response) {
+				this.$http({url: '{{ url("battlemap/validateaction") }}', data: validation_data, method: 'GET'}).then(function (response) {
 					//console.log(response.data);
-					if (response.data == 'Valid') {
+					if (response.data == 1) {
 						console.log('Valid Move');
-					} else if (response.data == 'Invalid') {
+					} else {
 						this.showAlert = true;
 						console.log('Move not Valid');
+						// Still need to figure how to store turn number before I can continue with redraw (Which is actually quite simple)
 					}
 				}, function (response) {
 					// error callback
@@ -314,18 +332,24 @@
 	});
 
 	function emptyCell(location_string) {
-		var xLocation = location_string.substring(1, 2);
-		var yLocation = location_string.substring(4, 5);
+		var endOfX = location_string.indexOf(","); 
+		var endOfY = location_string.length; 
+
+		var xLocation = location_string.substring(1, endOfX);
+		var yLocation = location_string.substring(endOfX + 2, endOfY - 1);
 
 		var locationID = 'row' + yLocation + '_col' + xLocation;
 
-		$('#' + locationID).html('');
+		$('#' + locationID).html('<label style="color:grey">(' + xLocation + ', ' + yLocation +')</label>');
 		$('#' + locationID).removeClass('selectedCell');
 	}
 
 	function renderAt(location_string, icon_location) {
-		var xLocation = location_string.substring(1, 2);
-		var yLocation = location_string.substring(4, 5);
+		var endOfX = location_string.indexOf(","); 
+		var endOfY = location_string.length; 
+
+		var xLocation = location_string.substring(1, endOfX);
+		var yLocation = location_string.substring(endOfX + 2, endOfY - 1);
 
 		var locationID = 'row' + yLocation + '_col' + xLocation;
 

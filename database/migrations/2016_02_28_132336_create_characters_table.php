@@ -17,7 +17,7 @@ class CreateCharactersTable extends Migration
             $table->string('name');
             $table->text('biography');
             $table->string('icon');
-            $table->string('class');
+            $table->integer('class_id')->unsigned();
             $table->integer('starting_lvl')->unsigned();
             $table->integer('current_lvl')->unsigned();
             $table->integer('experience')->unsigned();

@@ -17,7 +17,9 @@ class CreateActivebattleTable extends Migration
             $table->integer('character_id')->unsigned();
             $table->integer('last_x')->unsigned(); 
             $table->integer('last_y')->unsigned(); 
+            $table->integer('turn_number')->unsigned(); // There has to be a better way to do this 
             $table->integer('current_hp');
+            $table->boolean('has_moved'); // having this now necessitates advancing the turn server-side
             // Add active effects JSON  
             $table->timestamps();
         });
@@ -31,4 +33,5 @@ class CreateActivebattleTable extends Migration
     public function down()
     {
         Schema::drop('activebattle');
-    }}
+    }
+}
