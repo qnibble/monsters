@@ -136,7 +136,17 @@
 						</h4>
 					</div>
 					<div id="conversationsCollapse" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingFour">
-						<label>ToDo</label>
+						<table class="table">
+							<thead>
+								<tr>
+									<th>ID</th>
+									<th>Subjects</th>
+									<th>Nodes</th>
+									<th>Actions</th>
+								</tr>
+							</thead>
+						</table>
+
 						<div class="panel-footer">
 							<div class="text-center">
 								<a href="#" class="btn btn-primary">View All</a>

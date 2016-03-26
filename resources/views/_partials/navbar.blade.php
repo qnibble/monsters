@@ -15,12 +15,17 @@
           </button>
           <ul class="dropdown-menu">
             <li><a href="{{ url('effects') }}">Effects</a></li>
-            <li><a href="#">Items</a></li>
-            <li><a href="#">Conversations</a></li>
+            <li><a href="{{ url('armour') }}">Armours</a></li>
+            <li><a href="{{ url('weapon') }}">Weapons</a></li>
+            <li><a href="{{ url('mapdata') }}">Maps</a></li>
             <li><a href="{{ url('character') }}">Characters</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="#">Separated link</a></li>
+            <li><a href="{{ url('/') }}">Overview</a></li>
           </ul>
         </div>
+
+        <span class="pull-right">
+            <a href="{{ url('battlemap') }}" class="btn btn-success navbar-btn">To Battlemap</a>
+        </span>
     </div>
 </nav>
