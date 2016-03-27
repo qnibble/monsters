@@ -49,6 +49,7 @@
 
         {!! Html::script("js/jquery-2.2.1.js") !!}
         {!! Html::script("js/bootstrap.min.js") !!}
+        {!! Html::script("js/vue.min.js") !!}
         {!! Html::script("js/jquery.dataTables.min.js") !!}
         {!! Html::script("js/select2.min.js") !!}
 

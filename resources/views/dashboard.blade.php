@@ -164,7 +164,7 @@
 						<h4 class="panel-title" data-toggle="collapse" data-parent="#accordionRight" data-target="#collapseOne">
 								Characters ({{ $characters_total }})
 							<span class="pull-right">
-								<a href="{{ url('ability/create') }}" class="btn btn-default btn-xs" style="color:black">+ Add</a>
+								<a href="{{ url('character/create') }}" class="btn btn-default btn-xs" style="color:black">+ Add</a>
 							</span>
 						</h4>
 					</div>

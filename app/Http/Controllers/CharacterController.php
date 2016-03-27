@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 
 use Datatables;
 use App\Ability;
+use App\Armour;
 use App\Character;
+use App\Unitclass;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
 
@@ -42,8 +44,14 @@ class CharacterController extends Controller
     public function create()
     {
         $allCharacters = Character::all();
+        $armours_head = Armour::where('type', 'helm')->get();
+        $armours_head_list = Armour::where('type', 'helm')->lists('name', 'id')->toArray();
+        $armours_body = Armour::where('type', 'chest')->lists('name', 'id')->toArray();
+        $armours_arms = Armour::where('type', 'hands')->lists('name', 'id')->toArray();
+        $armours_feet = Armour::where('type', 'feet')->lists('name', 'id')->toArray();
+        $unitclasses = Unitclass::lists('name', 'id')->toArray();
 
-        return view('character.create', compact('allCharacters'));
+        return view('character.create', compact('unitclasses', 'allCharacters', 'armours_head', 'armours_head_list', 'armours_body', 'armours_arms', 'armours_feet'));
     }
 
     /**
@@ -65,7 +73,10 @@ class CharacterController extends Controller
      */
     public function show($id)
     {
-        $character = Character::with(['statistics', 'derivedstats', 'unitclass', 'equipmentslots'])->find($id);
+        $character = Character::with(['statistics', 'derivedstats', 'unitclass', 'equipmentslots', 'progress_data'])->find($id);
+        // return $character->progress_data;
+        // return $character;
+        // return $character->progress_data->progress_matrix;
         $all_abilities = Ability::all();
 
         return view('character.show', compact('character', 'all_abilities'));

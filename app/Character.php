@@ -64,4 +64,9 @@ class Character extends Model
     {
         return $this->belongsTo(Unitclass::class, 'class_id');
     }
+
+    public function progress_data()
+    {
+        return $this->morphMany(Progression::class, 'tracker');
+    }
 }

@@ -6,6 +6,7 @@ use App\Character;
 use App\Effect;
 use App\Item;
 use App\Unitclass;
+use App\Progression;
 use App\Weapon;
 use App\Mapdata;
 use Illuminate\Database\Seeder;
@@ -53,6 +54,7 @@ class TestDataSeeder extends Seeder
         $itemWoodHelm = Armour::create([
                 'icon' => 'ToDo',
                 'name' => 'Wood Helm (Test)',
+                'type' => 'helm',
                 'description' => 'A wooden helmet' ,
                 'armour_value' => 1
         ]);
@@ -60,6 +62,7 @@ class TestDataSeeder extends Seeder
         $itemWoodPlate = Armour::create([
                 'icon' => 'ToDo',
                 'name' => 'Wood Breastplate (Test)',
+                'type' => 'chest',
                 'description' => 'A wooden breastplate' ,
                 'armour_value' => 2
         ]);
@@ -67,6 +70,7 @@ class TestDataSeeder extends Seeder
         $itemStrawGloves = Armour::create([
                 'icon' => 'ToDo',
                 'name' => 'Straw Gloves (Test)',
+                'type' => 'hands',
                 'description' => 'A pair straw gloves' ,
                 'armour_value' => 1
         ]);
@@ -74,6 +78,7 @@ class TestDataSeeder extends Seeder
         $itemStrawSandles = Armour::create([
                 'icon' => 'ToDo',
                 'name' => 'Straw Sandles (Test)',
+                'type' => 'feet',
                 'description' => 'A pair straw sandles' ,
                 'armour_value' => 1
         ]);
@@ -123,24 +128,40 @@ class TestDataSeeder extends Seeder
             'effects' => $soulWindEffects
         ]);
 
+        $soulWindMatrix = [0, 2, 4, 8, 16, 32, 64, 128, 256, 512];
+        $soulWind->progress_data()->create([
+            'progress_matrix' => $soulWindMatrix,
+            'tier1' => 'T1 Data',
+            'tier2' => 'T2 Data',
+            'tier3' => 'T3 Data'
+        ]);
+
         $characterAbilityData = [];
         $characterAbility1 = [
             'id' => $soulWind->id,
-            'exp' => 0,  // Store Ability progression table in abilities table?
+            'exp' => 0,
             'level' => 1
             // Perhaps an alphabetical string to indicate evolution path?
         ];
         array_push($characterAbilityData, $characterAbility1);
 
         $character = Character::create([
-    			'name' => 'Vallis Obscuris', 
+                'name' => 'Vallis Obscuris', 
                 'biography' => 'Their life story',
                 'icon' => 'img/blue.png',
-    			'class_id' => $bruiser->id,
+                'class_id' => $bruiser->id,
                 'starting_lvl' => '1',
                 'current_lvl' => '1',
                 'experience' => '0',
                 'hasAbilities' => $characterAbilityData
+        ]);
+
+        $characterMatrix = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
+        $character->progress_data()->create([
+            'progress_matrix' => $characterMatrix,
+            'tier1' => 'T1 Data',
+            'tier2' => 'T2 Data',
+            'tier3' => 'T3 Data'
         ]);
 
         $character->statistics()->create([
@@ -176,6 +197,14 @@ class TestDataSeeder extends Seeder
                 'starting_lvl' => '1',
                 'current_lvl' => '1',
                 'experience' => '0'
+        ]);
+
+        $characterMatrix2 = [0, 15, 30, 45, 60, 75, 90, 105, 120, 135];
+        $character2->progress_data()->create([
+            'progress_matrix' => $characterMatrix2,
+            'tier1' => 'T1 Data',
+            'tier2' => 'T2 Data',
+            'tier3' => 'T3 Data'
         ]);
 
         $character2->statistics()->create([

@@ -16,6 +16,7 @@ class CreateArmoursTable extends Migration
             $table->increments('id');
             $table->string('icon');
             $table->string('name');
+            $table->string('type');
             $table->text('description');
             $table->integer('armour_value')->unsigned();
             $table->longText('effects')->nullable(); 

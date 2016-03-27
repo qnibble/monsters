@@ -21,6 +21,7 @@ class Armour extends Model
     protected $fillable = [
 		'icon',
         'name',
+        'type',
 		'description',
     	'armour_value',
 		'effects'

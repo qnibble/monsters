@@ -14,6 +14,24 @@ class Progression extends Model
     protected $table = 'progression';
 
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+		'tracker_id',
+		'tracker_type',
+    	'progress_matrix',
+		'tier1',
+		'tier2',
+		'tier3'
+    ];
+
+    protected $casts = [
+        'progress_matrix' => 'array'
+    ];
+
+    /**
      * Get all of the owning tracker models.
      */
     public function trackers()
