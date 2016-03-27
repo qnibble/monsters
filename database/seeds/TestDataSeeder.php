@@ -1,5 +1,6 @@
 <?php
 
+use App\Ability;
 use App\Armour;
 use App\Character;
 use App\Effect;
@@ -105,6 +106,32 @@ class TestDataSeeder extends Seeder
         /*      88888888  88    88  88        88  88    88  88        88   88888888     88     88888888  88    88   888888          */
         /****************************************************************************************************************************/
 
+        $soulWindEffects = [];
+        $soulWindPrimaryEffect = [
+            'target' => 3,
+            'duration' => 0,
+            'target_stat' => 1,
+            'modifier' => 5
+
+        ];
+        array_push($soulWindEffects, $soulWindPrimaryEffect);
+
+        $soulWind = Ability::create([
+            'name' => 'Soul Wind',
+            'description' => 'Flay the soul of the target',
+            'range' => 10,
+            'effects' => $soulWindEffects
+        ]);
+
+        $characterAbilityData = [];
+        $characterAbility1 = [
+            'id' => $soulWind->id,
+            'exp' => 0,  // Store Ability progression table in abilities table?
+            'level' => 1
+            // Perhaps an alphabetical string to indicate evolution path?
+        ];
+        array_push($characterAbilityData, $characterAbility1);
+
         $character = Character::create([
     			'name' => 'Vallis Obscuris', 
                 'biography' => 'Their life story',
@@ -112,7 +139,8 @@ class TestDataSeeder extends Seeder
     			'class_id' => $bruiser->id,
                 'starting_lvl' => '1',
                 'current_lvl' => '1',
-                'experience' => '0'
+                'experience' => '0',
+                'hasAbilities' => $characterAbilityData
         ]);
 
         $character->statistics()->create([

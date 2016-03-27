@@ -30,7 +30,7 @@ class Character extends Model
     ];
 
     protected $casts = [
-        'hasAbilities' => 'json',
+        'hasAbilities' => 'json', // Rename|Rethink
     ];
 
 

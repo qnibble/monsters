@@ -82,6 +82,7 @@ class AbilityController extends Controller
     public function show($id)
     {
         $ability = Ability::find($id);
+        return $ability->progress_data;
         $effectable_stats = Effect::lists('target_stat', 'id')->toArray();
 
         return view('abilities.show', compact('ability', 'effectable_stats'));

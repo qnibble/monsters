@@ -28,4 +28,9 @@ class Ability extends Model
     protected $casts = [
         'effects' => 'json',
     ];
+
+    public function progress_data()
+    {
+        return $this->morphMany('App\Progression', 'tracker');
+    }
 }

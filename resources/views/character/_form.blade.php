@@ -38,12 +38,14 @@
 					<tr>
 						<td>Class</td>
 						<td>
-							<label
-								data-toggle="tooltip" 
-								data-placement="bottom" 
-								title="{{ $character->unitclass->description }}">
-								{{ $character->unitclass->name }}
-							</label>
+							@if(isset($character))
+								<label
+									data-toggle="tooltip" 
+									data-placement="bottom" 
+									title="{{ $character->unitclass->description }}">
+									{{ $character->unitclass->name }}
+								</label>
+							@endif
 						</td>
 						<td>Starting Level</td>
 						<td>{{ isset($character) ?  $character->starting_lvl : null }}</td>
@@ -53,12 +55,14 @@
 						<td>{{ isset($character) ?  $character->current_lvl : null }}</td>
 						<td>Experience</td>
 						<td>
-							<label
-								data-toggle="tooltip" 
-								data-placement="bottom" 
-								title="{{ $character->unitclass->name }}:<br><?php foreach($character->unitclass->level_data as $required): echo $required . ', '; endforeach; ?>">
-								{{ isset($character) ?  $character->experience : null }}
-							</label>
+							@if(isset($character))
+								<label
+									data-toggle="tooltip" 
+									data-placement="bottom" 
+									title="{{ $character->unitclass->name }}:<br><?php foreach($character->unitclass->level_data as $required): echo $required . ', '; endforeach; ?>">
+									{{ isset($character) ?  $character->experience : null }}
+								</label>
+							@endif
 						</td>
 					</tr>
 				</tbody>
@@ -151,36 +155,96 @@
 	</div>
 
 	<div class="col-sm-4">
-		<div class="panel panel-info">
-			<div class="panel-heading">
-				<h4 class="panel-title">Equipment</h4>
+		<div class="row">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h4 class="panel-title">Equipment</h4>
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Slot</th>
+							<th>Item</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>Head</td>
+							<td>{{  isset($character) ? $character->equipmentslots->head->name : null }}</td>
+						</tr>
+						<tr>
+							<td>Body</td>
+							<td>{{  isset($character) ? $character->equipmentslots->body->name : null }}</td>
+						</tr>
+						<tr>
+							<td>Arms</td>
+							<td>{{  isset($character) ? $character->equipmentslots->hands->name : null }}</td>
+						</tr>
+						<tr>
+							<td>Feet</td>
+							<td>{{  isset($character) ? $character->equipmentslots->feet->name : null }}</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Slot</th>
-						<th>Item</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Head</td>
-						<td>{{  isset($character) ? $character->equipmentslots->head->name : null }}</td>
-					</tr>
-					<tr>
-						<td>Body</td>
-						<td>{{  isset($character) ? $character->equipmentslots->body->name : null }}</td>
-					</tr>
-					<tr>
-						<td>Arms</td>
-						<td>{{  isset($character) ? $character->equipmentslots->hands->name : null }}</td>
-					</tr>
-					<tr>
-						<td>Feet</td>
-						<td>{{  isset($character) ? $character->equipmentslots->feet->name : null }}</td>
-					</tr>
-				</tbody>
-			</table>
+		</div>
+		<div class="row">
+			<div class="panel panel-info">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						Abilities
+
+						<span class="pull-right">
+							<span class="glyphicon glyphicon-list"></span>
+						</span>
+					</h4>
+				</div>
+				<table class="table">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Name</th>
+							<th>Level</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						@if(isset($character) && count($character->hasAbilities) > 0)
+							@foreach($character->hasAbilities as $ability)
+								<tr>
+									<td>{{ $ability['id'] }}</td>
+									<td>
+										<label  
+											data-toggle="tooltip" 
+											data-placement="right" 
+											title="{{ $all_abilities[$ability['id'] - 1]->description }}">
+												{{ $all_abilities[$ability['id'] - 1]->name }}
+										</label>
+									</td>
+									<td>
+										<label  
+											data-toggle="tooltip" 
+											data-placement="right" 
+											title="{{ 'Experience: ' . $ability['exp'] . ' / ?' }}">
+												{{ $ability['level'] }}
+										</label>
+									</td>
+									<td>
+										<a href="#" class="btn btn-xs btn-danger">&times</a>
+										<a href="{{ url('ability/' . $ability['id']) }}" class="btn btn-xs btn-info"><span class="glyphicon glyphicon-search"></span></a>
+										<a href="#" class="btn btn-xs btn-warning"><span class="glyphicon glyphicon-pencil"></span></a>
+									</td>
+								</tr>
+							@endforeach
+						@endif
+					</tbody>
+				</table>
+				<div class="panel-footer">
+					<div class="text-center">
+						<a href="#" class="btn btn-primary">Add</a>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 

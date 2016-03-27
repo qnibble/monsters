@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use Datatables;
+use App\Ability;
 use App\Character;
 use App\Http\Requests;
 use App\Http\Controllers\Controller;
@@ -65,8 +66,9 @@ class CharacterController extends Controller
     public function show($id)
     {
         $character = Character::with(['statistics', 'derivedstats', 'unitclass', 'equipmentslots'])->find($id);
+        $all_abilities = Ability::all();
 
-        return view('character.show', compact('character'));
+        return view('character.show', compact('character', 'all_abilities'));
     }
 
     /**
