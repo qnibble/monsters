@@ -74,12 +74,13 @@ class CharacterController extends Controller
     public function show($id)
     {
         $character = Character::with(['statistics', 'derivedstats', 'unitclass', 'equipmentslots', 'progress_data'])->find($id);
+        $armours_head = Armour::where('type', 'helm')->get();
         // return $character->progress_data;
         // return $character;
         // return $character->progress_data->progress_matrix;
         $all_abilities = Ability::all();
 
-        return view('character.show', compact('character', 'all_abilities'));
+        return view('character.show', compact('character', 'all_abilities', 'armours_head'));
     }
 
     /**

@@ -67,6 +67,6 @@ class Character extends Model
 
     public function progress_data()
     {
-        return $this->morphMany(Progression::class, 'tracker');
+        return $this->morphOne(Progression::class, 'tracker');
     }
 }

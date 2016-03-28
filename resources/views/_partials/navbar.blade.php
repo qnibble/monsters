@@ -23,6 +23,7 @@
             <li><a href="{{ url('/') }}">Overview</a></li>
           </ul>
         </div>
+        <a href="{{ url('progression') }}" class="btn navbar-btn btn-info">Progress Data</a>
 
         <span class="pull-right">
             <a href="{{ url('battlemap') }}" class="btn btn-success navbar-btn">To Battlemap</a>

@@ -31,6 +31,6 @@ class Ability extends Model
 
     public function progress_data()
     {
-        return $this->morphMany('App\Progression', 'tracker');
+        return $this->morphOne(Progression::class, 'tracker');
     }
 }

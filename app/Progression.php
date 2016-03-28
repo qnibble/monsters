@@ -32,9 +32,9 @@ class Progression extends Model
     ];
 
     /**
-     * Get all of the owning tracker models.
+     * Get the owning tracker model.
      */
-    public function trackers()
+    public function tracker()
     {
         return $this->morphTo();
     }

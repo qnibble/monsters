@@ -23,6 +23,9 @@ Route::post('battlemap', 'BattlemapController@showMap');
 Route::get('battlemap/validatemove', 'BattlemapController@validateMove');
 Route::get('battlemap/validateaction', 'BattlemapController@validateAction');
 
+Route::get('progression', 'ProgressdataController@index');
+Route::get('progression/{id}', 'ProgressdataController@show');
+
 Route::resource('effects', 'EffectController', ['except' => 'edit']);
 
 Route::resource('items', 'ItemController', ['except' => 'edit']);
